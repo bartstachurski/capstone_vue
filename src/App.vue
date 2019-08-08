@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
@@ -84,7 +84,7 @@ export default {
       axios.get("/api/brewery_db_searches", {
         params: {
           lat: this.lat,
-          lng: this.lng
+          lng: this.lon
         }
       }).then(response => {
         console.log(response.data);
