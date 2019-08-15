@@ -1,13 +1,10 @@
 <template>
   <div class="show">
-    <h1>{{ product.name }}</h1>
-    <p>Price: ${{ product.price }}</p>
+    <h1>{{ brewery.brewery_name }}</h1>
+    <h2>{{ brewery.location_name }}</h2>
+    <p>Hours of Operation: {{ brewery.hours_of_operation }}</p>
+    <button v-on:click="saveBrewery()">Save Brewery</button>
 <!--     <div><img v-bind:src="product.image_url" v-bind:alt="product.name"/></div> -->
-    <p>Description: {{ product.description }}</p>
-    <p>Instock: {{ product.instock }}</p>
-    <p>Supplier: {{ product.supplier_name }}</p>
-    <button v-on:click="destroyProduct()">Destroy Product</button>
-    <router-link v-bind:to="`/products/${product.id}/edit`"> Edit Product</router-link>
   </div>
 </template>
 
@@ -20,19 +17,30 @@ export default {
   data: function() {
     return {
       message: "Helloooooo from the show file!",
-      product: {}
+      brewery: {}
     };
   },
   created: function() {
-    axios.get(`/api/products/${this.$route.params.id}`).then(response => {
+    axios.get(`/api/brewery_db_searches/${this.$route.params.id}`).then(response => {
       console.log(response.data);
-      this.product = response.data;
+      this.brewery = response.data;
+      console.log("showing this.brewery");
+      console.log(this.brewery);
     });
   },
   methods: {
-    destroyProduct: function() {
-      axios.delete('/api/products/' + this.product.id).then(response => {
-        this.$router.push('/');
+    saveBrewery: function() {
+      console.log("in the saveBrewery function");
+      var savedBrewery = {
+        brewery_id: this.brewery.id,
+        visited: "",
+        rating: "",
+        comment: ""
+      };
+      console.log("this is the savedBrewery");
+      console.log(savedBrewery);
+      axios.post("/api/saved_breweries", savedBrewery).then(response => {
+        console.log(response.data);
       });
     }
   }
