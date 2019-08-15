@@ -11,6 +11,7 @@
     <div v-for="brewery in breweries">
       <h2>{{ brewery.location_name }}</h2>
       <p>{{ brewery.brewery_name }}</p>
+      <router-link v-bind:to="`/breweries/${brewery.id}`">See More Info</router-link>
     </div>
   </div>
 </template>
