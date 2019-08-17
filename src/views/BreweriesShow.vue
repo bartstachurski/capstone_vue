@@ -3,6 +3,7 @@
     <h1>{{ brewery.brewery_name }}</h1>
     <h2>{{ brewery.location_name }}</h2>
     <p>Hours of Operation: {{ brewery.hours_of_operation }}</p>
+    <p>Untappd Description: {{ brewery.untappd_brewery_info.brewery_description }}</p>
     <button v-on:click="saveBrewery()">Save Brewery</button>
 <!--     <div><img v-bind:src="product.image_url" v-bind:alt="product.name"/></div> -->
   </div>
@@ -17,7 +18,7 @@ export default {
   data: function() {
     return {
       message: "Helloooooo from the show file!",
-      brewery: {}
+      brewery: {},
     };
   },
   created: function() {
