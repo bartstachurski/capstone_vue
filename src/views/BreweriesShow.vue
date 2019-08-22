@@ -1,12 +1,11 @@
 <template>
   <div class="show">
     <h1>{{ venue.venue_name }}</h1>
-    <h2>Name: {{ venue.brewery_name }}</h2>
-    <p>{{ venue.venue_address }}</p>
-    <p>{{ venue.venue_city }}</p>
-    <p>{{ venue.venue_state }}</p>
-    <p>{{ venue.venue_country }}</p>
-    <p>{{ venue.venue_info }}</p>
+    <h2>Brewery Name: {{ venue.brewery_name }}</h2>
+    <p>{{ venue.venue_address }}, {{ venue.venue_city }}, {{ venue.venue_state }}</p>
+    <p></p>
+    <p>Brewery Rating: {{ brewery.rating_score }} Rating Count: {{ brewery.rating_count }}</p>
+<!--     <p>{{ venue.venue_info }}</p> -->
 <!--     <p>{{ brewery.venue_info.beer }}</p> -->
 <!--     <h2>{{ brewery.location_name }}</h2>
     <p>Hours of Operation: {{ brewery.hours_of_operation }}</p>
@@ -33,15 +32,15 @@ export default {
     axios.get(`/api/untappd_venues/${this.$route.params.id}`).then(response => {
       console.log(response.data);
       this.venue = response.data;
-      console.log("showing this.venue");
-      console.log(this.venue);
-    });
-    axios.get(`/api/untappd_venues/${this.brewery.id}`).then(response => {
-      console.log(response.data);
-      this.brewery = response.data;
-      console.log("showing this.brewery");
-      console.log(this.brewery);
-    });
+    }).then(      
+      axios.get(`/api/untappd_breweries/${6226}`).then(response => {
+        console.log("brewery id from untappd_breweries");
+        console.log(this.venue.brewery_id);
+        console.log(response.data);
+        this.brewery = response.data;
+        console.log("showing this.brewery");
+        console.log(this.brewery);
+      }));
   },
   methods: {
     saveBrewery: function() {
@@ -57,7 +56,7 @@ export default {
       axios.post("/api/saved_breweries", savedBrewery).then(response => {
         console.log(response.data);
       });
-    }
+    },
   }
 };
 </script>
