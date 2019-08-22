@@ -46,6 +46,8 @@ export default {
       console.log("in the saveBrewery function");
       var savedBrewery = {
         brewery_id: this.venue.venue_id,
+        brewery_name: this.venue.brewery_name,
+        venue_name: this.venue.venue_name,
         visited: false,
         rating: "",
         comment: ""
