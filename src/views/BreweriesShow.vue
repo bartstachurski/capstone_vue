@@ -4,7 +4,7 @@
     <h2>Brewery Name: {{ venue.brewery_name }}</h2>
     <p>{{ venue.venue_address }}, {{ venue.venue_city }}, {{ venue.venue_state }}</p>
     <p></p>
-    <p>Brewery Rating: {{ brewery.rating_score }} Rating Count: {{ brewery.rating_count }}</p>
+    <p>Brewery Untappd Rating: {{ brewery.rating_score }} Rating Count: {{ brewery.rating_count }}</p>
 <!--     <p>{{ venue.venue_info }}</p> -->
 <!--     <p>{{ brewery.venue_info.beer }}</p> -->
 <!--     <h2>{{ brewery.location_name }}</h2>
@@ -32,15 +32,14 @@ export default {
     axios.get(`/api/untappd_venues/${this.$route.params.id}`).then(response => {
       console.log(response.data);
       this.venue = response.data;
-    }).then(      
-      axios.get(`/api/untappd_breweries/${6226}`).then(response => {
-        console.log("brewery id from untappd_breweries");
-        console.log(this.venue.brewery_id);
-        console.log(response.data);
+    });
+  },
+  updated: function() {     
+    this.$nextTick(function() {
+      axios.get(`/api/untappd_breweries/${this.venue.brewery_id}`).then(response => {
         this.brewery = response.data;
-        console.log("showing this.brewery");
-        console.log(this.brewery);
-      }));
+      });
+    });
   },
   methods: {
     saveBrewery: function() {

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import BreweryShow from './views/BreweriesShow.vue';
+import SavedBreweries from './views/SavedBreweries.vue';
 
 Vue.use(Router);
 
@@ -18,6 +19,11 @@ export default new Router({
       path: '/breweries/:id',
       name: 'breweries-show',
       component: BreweryShow
+    },
+    {
+      path: '/saved_breweries',
+      name: 'saved-breweries',
+      component: SavedBreweries
     },
     {
       path: '/about',
