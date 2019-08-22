@@ -1,12 +1,12 @@
 <template>
   <div class="show">
-    <h1>{{ brewery.venue_name }}</h1>
-    <h2>Brewery: {{ brewery.brewery_name }}</h2>
-    <p>{{ brewery.venue_address }}</p>
-    <p>{{ brewery.venue_city }}</p>
-    <p>{{ brewery.venue_state }}</p>
-    <p>{{ brewery.venue_country }}</p>
-    <p>{{ brewery.venue_info }}</p>
+    <h1>{{ venue.venue_name }}</h1>
+    <h2>Name: {{ venue.brewery_name }}</h2>
+    <p>{{ venue.venue_address }}</p>
+    <p>{{ venue.venue_city }}</p>
+    <p>{{ venue.venue_state }}</p>
+    <p>{{ venue.venue_country }}</p>
+    <p>{{ venue.venue_info }}</p>
 <!--     <p>{{ brewery.venue_info.beer }}</p> -->
 <!--     <h2>{{ brewery.location_name }}</h2>
     <p>Hours of Operation: {{ brewery.hours_of_operation }}</p>
@@ -25,11 +25,18 @@ export default {
   data: function() {
     return {
       message: "Helloooooo from the show file!",
-      brewery: {},
+      venue: {},
+      brewery: {}
     };
   },
   created: function() {
     axios.get(`/api/untappd_venues/${this.$route.params.id}`).then(response => {
+      console.log(response.data);
+      this.venue = response.data;
+      console.log("showing this.venue");
+      console.log(this.venue);
+    });
+    axios.get(`/api/untappd_venues/${this.brewery.id}`).then(response => {
       console.log(response.data);
       this.brewery = response.data;
       console.log("showing this.brewery");
@@ -40,8 +47,8 @@ export default {
     saveBrewery: function() {
       console.log("in the saveBrewery function");
       var savedBrewery = {
-        brewery_id: this.brewery.id,
-        visited: "",
+        brewery_id: this.venue.venue_id,
+        visited: false,
         rating: "",
         comment: ""
       };

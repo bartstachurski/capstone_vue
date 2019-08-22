@@ -8,7 +8,8 @@
       onfocus="value = ''" 
       type="text">
     </div>
-    <div v-for="brewery in breweries">
+    <div v-for="brewery in filterBy(breweries, this.category_filter, 'categories')">
+    <!-- <div v-for="brewery in filterBy(breweries, 'Tired Hands')"> -->
       <h2>{{ brewery.venue_name }}</h2>
       <router-link v-bind:to="`/breweries/${brewery.venue_id}`">See More Info</router-link>
     </div>
@@ -21,14 +22,17 @@
 
 <script>
 import axios from "axios";
+import Vue2Filters from 'vue2-filters';
 
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function() {
     return {
       message: "Search for a Brewery",
       lat: "",
       lon: "",
       city: "",
+      category_filter: "brewery",
       breweries: []
     };
   },
