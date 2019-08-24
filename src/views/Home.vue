@@ -25,19 +25,10 @@
         <div class="banerInfo">
           <h1>Explore. Discover. Share</h1>
           <p>Listty helps to find out great things arround you</p>
-          <form class="form-inline" action="listings-half-screen-map-list.html">
+          <form class="form-inline">
             <div class="form-group">
               <div class="input-group">
-                <div class="input-group-addon">Find</div>
-                <input type="text" class="form-control" id="findItem" placeholder="What are you looking for?">
-                <div class="input-group-addon addon-right"></div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-addon">Near</div>
-                <input type="text" class="form-control" id="nearLocation" placeholder="Location">
-                <div class="input-group-addon addon-right"><i class="icon-listy icon-target" aria-hidden="true"></i></div>
+                <input ref="autocomplete" placeholder="Seach for a location" class="form-control" onfocus="value = ''" type="text">
               </div>
             </div>
             <button type="submit" class="btn btn-primary">Search <i class="fa fa-search" aria-hidden="true"></i></button>
