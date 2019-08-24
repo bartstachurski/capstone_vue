@@ -3,6 +3,9 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import BreweryShow from './views/BreweriesShow.vue';
 import SavedBreweries from './views/SavedBreweries.vue';
+import Signup from "./views/Signup.vue";
+import Login from "./views/Login.vue";
+import Logout from "./views/Logout.vue";
 
 Vue.use(Router);
 
@@ -24,6 +27,21 @@ export default new Router({
       path: '/saved_breweries',
       name: 'saved-breweries',
       component: SavedBreweries
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: Signup
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: Logout
     },
     {
       path: '/about',
