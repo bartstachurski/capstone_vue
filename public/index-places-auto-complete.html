@@ -5,9 +5,8 @@
   <!-- SITE TITTLE -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Home Map - Listty</title>
+  <title>Home Travel - Listty</title>
 
   <!-- PLUGINS CSS STYLE -->
   <link href="assets/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
@@ -23,8 +22,8 @@
   <link href="assets/plugins/map/css/map.css" rel="stylesheet">
   <link href="assets/plugins/rateyo/jquery.rateyo.min.css" rel="stylesheet">
   <link href="assets/plugins/animate/animate.css" rel="stylesheet">
-
   <link href="" rel="stylesheet" id="bootstrap-rtl">
+
 
   <!-- GOOGLE FONT -->
   <link href="https://fonts.googleapis.com/css?family=Muli:200,300,400,600,700,800,900" rel="stylesheet">
@@ -34,7 +33,6 @@
 
   <!-- CUSTOM CSS -->
   <link href="assets/css/app.css" rel="stylesheet">
-  <!-- <link href="assets/plugins/bootstrap-rtl/bootstrap-rtl.min.css" rel="stylesheet"> -->
 
   <link rel="stylesheet" href="assets/css/default.css" id="option_color">
 
@@ -51,11 +49,11 @@
 </head>
 
 <body id="body" class="body-wrapper boxed-menu" >
+
   <div id="app"></div>
 
   <!-- JAVASCRIPTS -->
   <script src="/assets/plugins/jquery/jquery.min.js"></script>
-  <script src="/assets/plugins/jquery/jquery-migrate.js"></script>
   <script src="/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
   <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
   <script src="/assets/plugins/smoothscroll/SmoothScroll.min.js"></script>
@@ -68,8 +66,7 @@
   <script src="/assets/plugins/fancybox/jquery.fancybox.min.js"></script>
   <script src="/assets/plugins/isotope/isotope-triger.min.js"></script>
   <script src="/assets/plugins/rateyo/jquery.rateyo.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu8-hGDnwC_VpH1Vl1QhJmwTlV0TgM6Qo"></script>
-  <script src="/assets/plugins/map/js/markerclusterer.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%- process.env.VUE_APP_GOOGLE_PLACES_API_KEY %>&libraries=places"></script>
   <script src="/assets/plugins/map/js/rich-marker.js"></script>
   <script src="/assets/plugins/map/js/infobox_packed.js"></script>
   <script src="/assets/js/map.js"></script>

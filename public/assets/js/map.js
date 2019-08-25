@@ -352,7 +352,7 @@ if(mapId){
                   '<ul class="list-inline rating">' +
                     '<li><i class="fa fa-star" aria-hidden="true"></i></li>' +
                     '<li><i class="fa fa-star" aria-hidden="true"></i></li>' +
-                    '<li><i class="fa fa-star" aria-hidden="true"></i></li>' +
+                    '<li><i class="fa fa-star" aria-hidden="true"></i></l>' +
                     '<li><i class="fa fa-star" aria-hidden="true"></i></li>' +
                     '<li><i class="fa fa-star-o" aria-hidden="true"></i></li>' +
                   '</ul>'+
@@ -513,3 +513,6 @@ if(mapAddEdit){
   }
 
 }
+
+// export default {
+// };
