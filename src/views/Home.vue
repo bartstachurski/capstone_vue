@@ -18,7 +18,7 @@
     <!-- <div id="map-canvas"></div> -->
     <div id="map-canvas">
       <GmapMap
-        :center="{lat:39.975992, lng:-75.137289}"
+        :center="{lat:this.lat, lng:this.lon}"
         :zoom="13"
         map-type-id="terrain"
         style="width: 100%; height: 500px"
@@ -57,13 +57,13 @@
   <section class="clearfix thingsArea">
     <div class="container">
       <div class="page-header text-center">
-        <h2>Popular Things Near You <small>This are some of most popular listing</small></h2>
+        <h2>Breweries Near {{ this.city }}</h2>
       </div>
       <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12" v-for="brewery in breweries">
+        <div class="col-md-4 col-sm-6 col-xs-12" v-for="brewery in filterBy(breweries, this.category_filter, 'categories')">
           <div class="thingsBox thinsSpace">
             <div class="thingsImage">
-              <img src="assets/img/listing/listing-4.jpg" alt="Image things">
+              <img v-bind:src="brewery.venue_icon.lg" alt="Image things">
               <div class="thingsMask">
                 <ul class="list-inline rating">
                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -72,8 +72,8 @@
                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                   <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
                 </ul>
-                <a href="listing-details-right.html"><h2>Test<i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
-                <p>215 Terry Lane, New York</p>
+                <a href="listing-details-right.html"><h2>{{ brewery.venue_name }}<i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+                <p>{{ brewery.venue_address }}, {{ brewery.venue_state }}</p>
               </div>
             </div>
             <div class="thingsCaption ">
@@ -220,8 +220,8 @@ export default {
   data: function() {
     return {
       message: "Search for a Brewery",
-      lat: "",
-      lon: "",
+      lat: 39.975992,
+      lon: -75.137289,
       city: "",
       markers: [],
       place: "",
@@ -239,6 +239,10 @@ export default {
       console.log(this.place);
       console.log("this is the city");
       this.city = this.place.name;
+      this.lat = this.place.geometry.location.lat(),
+      this.lon = this.place.geometry.location.lng(),
+      console.log(this.lat);
+      console.log(this.lon);
       console.log(this.place.name);
       axios.get("/api/untappd_venues", {
         params: {
