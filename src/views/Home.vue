@@ -60,10 +60,10 @@
         <h2>Breweries Near {{ this.city }}</h2>
       </div>
       <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12" v-for="brewery in filterBy(breweries, this.category_filter, 'categories')">
+        <div class="col-md-4 col-sm-6 col-xs-12" v-for="brewery in breweries">
           <div class="thingsBox thinsSpace">
             <div class="thingsImage">
-              <img v-bind:src="brewery.venue_icon.lg" alt="Image things">
+              <img src="assets/img/listing/listing-4.jpg" alt="Image things">
               <div class="thingsMask">
                 <ul class="list-inline rating">
                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -72,7 +72,7 @@
                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                   <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
                 </ul>
-                <a href="listing-details-right.html"><h2>{{ brewery.venue_name }}<i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+                <router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><h2>{{ brewery.venue_name }}<i class="fa fa-check-circle" aria-hidden="true"></i></h2></router-link>
                 <p>{{ brewery.venue_address }}, {{ brewery.venue_state }}</p>
               </div>
             </div>
@@ -225,7 +225,7 @@ export default {
       city: "",
       markers: [],
       place: "",
-      category_filter: "brewery",
+      // category_filter: "brewery",
       breweries: []
     };
   },
@@ -244,9 +244,9 @@ export default {
       console.log(this.lat);
       console.log(this.lon);
       console.log(this.place.name);
-      axios.get("/api/untappd_venues", {
+      axios.get("/api/foursquare_venues", {
         params: {
-          city: this.city
+          ll: this.lat + "," + this.lon
         }
       }).then(response => {
         console.log(response.data);
