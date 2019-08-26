@@ -29,15 +29,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active dropdown singleDrop">
-                      <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">home <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                    <ul class="dropdown-menu">
-                      <li><a class="active" href="index.html">Home Map</a></li>
-                      <li><a class="" href="index-2.html">Home Travel</a></li>
-                      <li><a class="" href="index-3.html">Home Automobile</a></li>
-                      <li><a class="" href="index-4.html">Home City</a></li>
-                    </ul>
-                  </li>
+                  <li class=""><a href="/">home </a></li>
+                  <li class=""><a href="/saved_breweries">saved breweries </a></li>
                   <li class=" dropdown megaDropMenu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Listing <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <ul class="row dropdown-menu">
@@ -82,8 +75,8 @@
                     <ul class="dropdown-menu">
                       <li><a href="contact-us.html">Contact Us</a></li>
                       <li><a href="terms-of-services.html">Terms and Conditions</a></li>
-                      <li><a href="sign-up.html">Create Account</a></li>
-                      <li><a href="login.html">Login</a></li>
+                      <li><a href="/signup">Create Account</a></li>
+                      <li><a href="/login">Login</a></li>
                       <li><a href="pricing-table.html">Pricing</a></li>
                       <li><a href="payment-process.html">Payment</a></li>
                       <li><a href="how-it-works.html">How It Works</a></li>
@@ -92,7 +85,6 @@
                       <li><a href="404-page.html">404 Page</a></li>
                     </ul>
                   </li>
-                  <li class=""><a href="blog.html">blog </a></li>
                   <li class=" dropdown singleDrop">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">admin <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu">
@@ -101,12 +93,11 @@
                       <li><a href="edit-listings.html">Edit Listing</a></li>
                       <li><a href="booking-list.html">Booking List</a></li>
                       <li><a href="dashboard-reviews.html">Reviews</a></li>
-                      <li><a href="listings.html">My Listings</a></li>
                       <li><a href="profile.html">My Profile</a></li>
                       <li><a href="oders.html">My Orders</a></li>
-                      <li><a href="sign-up.html">Create Account</a></li>
-                      <li><a href="login.html">Login</a></li>
-                      <li><a href="index.html">Log Out</a></li>
+                      <li><a href="/signup">Create Account</a></li>
+                      <li><a href="/login">Login</a></li>
+                      <li><a href="/logout">Log Out</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -154,8 +145,8 @@
               <div class="useLink">
                 <ul class="list-unstyled">
                   <li><a href="dashboard.html">Dashboard</a></li>
-                  <li><a href="sign-up.html">Create Account</a></li>
-                  <li><a href="login.html">Login</a></li>
+                  <li><a href="/signup">Create Account</a></li>
+                  <li><a href="/login">Login</a></li>
                   <li><a href="add-listings.html">Add Listing</a></li>
                   <li><a href="edit-listings.html">Edit Listing</a></li>
                 </ul>
