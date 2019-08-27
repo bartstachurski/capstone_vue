@@ -29,10 +29,7 @@
 <!-- LISTINGS DETAILS IMAGE SECTION -->
 <section class="clearfix paddingAdjustTopBottom">
   <ul class="list-inline listingImage">
-    <li><img src="/assets/img/listing/listing-details-1.jpg" alt="Image Listing" class="img-responsive"></li>
-    <li><img src="/assets/img/listing/listing-details-2.jpg" alt="Image Listing" class="img-responsive"></li>
-    <li><img src="/assets/img/listing/listing-details-3.jpg" alt="Image Listing" class="img-responsive"></li>
-    <li><img src="/assets/img/listing/listing-details-4.jpg" alt="Image Listing" class="img-responsive"></li>
+    <li v-for="image in foursquare_venue.photos.groups[1].items"><img v-bind:src="`${image.prefix}200x150${image.suffix}`" alt="Image Listing" class="img-responsive"></li>
   </ul>
 </section>
 
@@ -43,8 +40,8 @@
       <div class="col-sm-8 col-xs-12">
         <div class="listDetailsInfo">
           <div class="detailsInfoBox">
-            <h3>About This Hotel</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed eiusmod tempor incididunt  labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident. sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam. </p>
+            <h3>About This Brewery</h3>
+            <p>{{ this.brewery.brewery_description }}</p>
             <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est. </p>
             <p>Qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui </p>
           </div>
@@ -61,13 +58,14 @@
             </ul>
           </div>
           <div class="detailsInfoBox">
-            <h3>Reviews (3)</h3>
-            <div class="media media-comment">
+            <h3>Tips ({{ this.foursquare_venue.tips.length }})</h3>
+            <!-- need to edit this to show the tips data from foursquare if you want -->
+            <div class="media media-comment" v-for="tip in this.foursquare_venue.tips">
               <div class="media-left">
-              <img src="/assets/img/listing/list-user-1.jpg" class="media-object img-circle" alt="Image User">
+              <img v-bind:src="`${tip.user.photo.prefix}100x100${tip.user.photo.suffix}`" class="media-object img-circle" alt="Image User">
               </div>
               <div class="media-body">
-                <h4 class="media-heading">Jessica Brown</h4>
+                <h4 class="media-heading">{{ tip.user.firstName}} {{ tip.user.lastName }}</h4>
                 <ul class="list-inline rating">
                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -75,8 +73,7 @@
                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                 </ul>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan
-                totam rem ape riam,</p>
+                <p>{{ tip.text }}</p>
               </div>
             </div>
           </div>
@@ -228,14 +225,18 @@ export default {
     axios.get(`/api/foursquare_venues/${this.venue.foursquare_id}`).then(response => {
       console.log(response.data);
       this.foursquare_venue = response.data;
+      console.log("these are the venue tips");
+      console.log(this.foursquare_venue.tips);
+      console.log(this.foursquare_venue.photos.groups[1].items);
+      console.log("this is foursquare_venue.photos.groups[1]");
     });
   },
   updated: function() {     
     this.$nextTick(function() {
       axios.get(`/api/untappd_breweries/${this.venue.brewery_id}`).then(response => {
         this.brewery = response.data;
-        console.log("This is this.foursquare_venue.tips.groups[1].items");
-        console.log(this.foursquare_venue.tips.groups[1].items);
+        console.log("this is this.brewery");
+        console.log(this.brewery);
       });
     });
   },
