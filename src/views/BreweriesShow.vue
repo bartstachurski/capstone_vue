@@ -209,30 +209,29 @@ export default {
       foursquare_venue: {}
     };
   },
-  created: function() {
-    axios.get(`/api/untappd_venues/${this.$route.params.id}`).then(response => {
-      console.log("This is the venue data from untappd");
-      console.log(response.data);
-      this.venue = response.data;
-    });
-    console.log("This is the foursquare id");
-    console.log(this.venue.foursquare_id);
-    axios.get(`/api/foursquare_venues/${this.venue.foursquare_id}`).then(response => {
-      console.log("This is the foursquare venue data");
-      console.log(response.data);
-      this.foursquare_venue = response.data;
-    });
-    this.$nextTick(function() {
+  watch: {
+    venue: function(val) {
+      console.log("This is the foursquare id");
       console.log("hello from untappd breweries get");
       axios.get(`/api/untappd_breweries/${this.venue.brewery_id}`).then(response => {
         this.brewery = response.data;
         console.log("this is this.brewery");
         console.log(this.brewery);
       });
-    });
+      console.log(this.venue.foursquare_id);
+      axios.get(`/api/foursquare_venues/${this.venue.foursquare_id}`).then(response => {
+        console.log("This is the foursquare venue data");
+        console.log(response.data);
+        this.foursquare_venue = response.data;
+      });
+    },
   },
-  mounted: function() {
-    console.log("hello from mounted");     
+  created: function() {
+    axios.get(`/api/untappd_venues/${this.$route.params.id}`).then(response => {
+      console.log("This is the venue data from untappd");
+      console.log(response.data);
+      this.venue = response.data;
+    });
   },
   methods: {
     saveBrewery: function() {
