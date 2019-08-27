@@ -79,40 +79,6 @@
                 totam rem ape riam,</p>
               </div>
             </div>
-            <div class="media media-comment">
-              <div class="media-left">
-              <img src="/assets/img/listing/list-user-2.jpg" class="media-object img-circle" alt="Image User">
-              </div>
-              <div class="media-body">
-                <h4 class="media-heading">Jessica Brown</h4>
-                <ul class="list-inline rating">
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                </ul>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan
-                totam rem ape riam,</p>
-              </div>
-            </div>
-            <div class="media media-comment">
-              <div class="media-left">
-              <img src="/assets/img/listing/list-user-3.jpg" class="media-object img-circle" alt="Image User">
-              </div>
-              <div class="media-body">
-                <h4 class="media-heading">Jessica Brown</h4>
-                <ul class="list-inline rating">
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                </ul>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan
-                totam rem ape riam,</p>
-              </div>
-            </div>
           </div>
           <div class="detailsInfoBox">
             <h3>Write A Review </h3>
@@ -268,6 +234,8 @@ export default {
     this.$nextTick(function() {
       axios.get(`/api/untappd_breweries/${this.venue.brewery_id}`).then(response => {
         this.brewery = response.data;
+        console.log("This is this.foursquare_venue.tips.groups[1].items");
+        console.log(this.foursquare_venue.tips.groups[1].items);
       });
     });
   },
