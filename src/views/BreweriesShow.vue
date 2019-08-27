@@ -12,13 +12,15 @@
       <div class="col-xs-12">
         <div class="listingTitleArea">
           <h2>{{ this.venue.venue_name }}</h2>
+          <h3>By {{ this.brewery.brewery_name }}</h3>
           <p>{{ this.venue.venue_address }}  <br>{{ this.venue.venue_city }}, {{ this.venue.venue_state}} {{this.foursquare_venue.location.postalCode}}, {{ this.venue.venue_country }}</p>
           <div class="listingReview">
             <span>Foursquare Venue Rating: {{ this.foursquare_venue.rating }} / 10 ( {{ this.foursquare_venue.rating_signals }} Reviews )</span>
+            <span>Untappd Brewery Rating: {{ this.brewery.rating_score }} / 5 ( {{ this.brewery.rating_count }} Reviews )</span>
             <ul class="list-inline captionItem">
               <li><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</li>
             </ul>
-            <a href="dashboard-reviews.html" class="btn btn-primary">Write a review</a>
+            <button v-on:click="saveBrewery()" class="btn btn-primary">Save Brewery</button>
           </div>
         </div>
       </div>
@@ -42,8 +44,6 @@
           <div class="detailsInfoBox">
             <h3>About This Brewery</h3>
             <p>{{ this.brewery.brewery_description }}</p>
-            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est. </p>
-            <p>Qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui </p>
           </div>
           <div class="detailsInfoBox">
             <h3>Features</h3>
@@ -78,27 +78,20 @@
             </div>
           </div>
           <div class="detailsInfoBox">
-            <h3>Write A Review </h3>
-            <div class="listingReview">
-              <span>( 5 Reviews )</span>
-              <ul class="list-inline rating rating-review">
-                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-              </ul>
-            </div>
-            <form action="#">
-              <div class="formSection formSpace">
-                <div class="form-group">
-                  <textarea class="form-control" rows="3" placeholder="Comment"></textarea>
-                </div>
-                <div class="form-group mb0">
-                  <button type="submit" class="btn btn-primary">Send Review</button>
-                </div>
+            <h3>Most Popular Beers </h3>
+            <!-- need to edit this to show the tips data from foursquare if you want -->
+            <div class="media media-comment" v-for="beer in this.brewery.beer_list">
+<!--               <div class="media-left">
+              <img v-bind:src="`${tip.user.photo.prefix}100x100${tip.user.photo.suffix}`" class="media-object img-circle" alt="Image User">
+              </div> -->
+              <div class="media-body">
+                <h4 class="media-heading">{{ beer.beer.beer_name}} </h4>
+                <p>Untappd Rating: {{ beer.beer.rating_score }} ({{ beer.beer.rating_count }} Ratings)</p>
+                <p>Style: {{ beer.beer.beer_style }}</p>
+                <p>ABV: {{ beer.beer.beer_abv }} %</p>
+                <p>Description: {{ beer.beer.beer_description }}</p>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -121,8 +114,9 @@
               <li>
                 <i class="fa fa-globe" aria-hidden="true"></i>
                 <a v-bind:href="`${this.foursquare_venue.url}`">{{ this.foursquare_venue.url }}</a>
-                <a v-bind:href="`https://twitter.com/${this.foursquare_venue.contact.twitter}`">twitter: {{ this.foursquare_venue.contact.twitter}}</a>
-                <a v-bind:href="`https://www.instagram.com/${this.foursquare_venue.contact.instagram}`">instagram: {{ this.foursquare_venue.contact.instagram}}</a>
+                <a v-bind:href="`https://twitter.com/${this.foursquare_venue.contact.twitter}`">https://twitter.com/{{ this.foursquare_venue.contact.twitter}}</a>
+                <a v-bind:href="`https://www.instagram.com/${this.foursquare_venue.contact.instagram}`">https://www.instagram.com/{{ this.foursquare_venue.contact.instagram}}</a>
+                <a v-bind:href="`${this.brewery.facebook}`"> {{ this.brewery.facebook }}</a>
               </li>
             </ul>
           </div>
@@ -217,22 +211,19 @@ export default {
   },
   created: function() {
     axios.get(`/api/untappd_venues/${this.$route.params.id}`).then(response => {
+      console.log("This is the venue data from untappd");
       console.log(response.data);
       this.venue = response.data;
     });
     console.log("This is the foursquare id");
     console.log(this.venue.foursquare_id);
     axios.get(`/api/foursquare_venues/${this.venue.foursquare_id}`).then(response => {
+      console.log("This is the foursquare venue data");
       console.log(response.data);
       this.foursquare_venue = response.data;
-      console.log("these are the venue tips");
-      console.log(this.foursquare_venue.tips);
-      console.log(this.foursquare_venue.photos.groups[1].items);
-      console.log("this is foursquare_venue.photos.groups[1]");
     });
-  },
-  updated: function() {     
     this.$nextTick(function() {
+      console.log("hello from untappd breweries get");
       axios.get(`/api/untappd_breweries/${this.venue.brewery_id}`).then(response => {
         this.brewery = response.data;
         console.log("this is this.brewery");
@@ -240,13 +231,18 @@ export default {
       });
     });
   },
+  mounted: function() {
+    console.log("hello from mounted");     
+  },
   methods: {
     saveBrewery: function() {
       console.log("in the saveBrewery function");
       var savedBrewery = {
-        brewery_id: this.venue.venue_id,
-        brewery_name: this.venue.brewery_name,
+        untappd_brewery_id: this.brewery.brewery_id,
+        brewery_name: this.brewery.brewery_name,
         venue_name: this.venue.venue_name,
+        foursquare_venue_id: this.venue.foursquare_id,
+        untappd_venue_id: this.venue.venue_id,
         visited: false,
         rating: "",
         comment: ""
