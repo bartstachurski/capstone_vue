@@ -12,9 +12,9 @@
       <div class="col-xs-12">
         <div class="listingTitleArea">
           <h2>{{ this.venue.venue_name }}</h2>
-          <p>{{ this.venue.venue_address }}  <br>{{ this.venue.venue_city }}, {{ this.venue.venue_state}} {{this.venue.venue_}}, {{ this.venue.venue_country }}</p>
+          <p>{{ this.venue.venue_address }}  <br>{{ this.venue.venue_city }}, {{ this.venue.venue_state}} {{this.foursquare_venue.location.postalCode}}, {{ this.venue.venue_country }}</p>
           <div class="listingReview">
-            <span>Foursquare Venue Rating: {{ this.foursquare_venue.rating }} / 10 ( {{ this.foursquare_venue_.rating_signals }} Reviews )</span>
+            <span>Foursquare Venue Rating: {{ this.foursquare_venue.rating }} / 10 ( {{ this.foursquare_venue.rating_signals }} Reviews )</span>
             <ul class="list-inline captionItem">
               <li><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</li>
             </ul>
@@ -149,49 +149,27 @@
             <ul class="list-unstyled list-address">
               <li>
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
-                16/14 Babor Road, Mohammad pur <br> Dhaka, Bangladesh
+                {{ this.foursquare_venue.location.address }} {{ this.foursquare_venue.location.crossStreet }} <br> {{ this.foursquare_venue.location.city }}, {{ this.foursquare_venue.location.state }} <br> {{ this.foursquare_venue.location.country }}
               </li>
               <li>
                 <i class="fa fa-phone" aria-hidden="true"></i>
-                +55 654 545 122 <br> +55 654 545 123
+                {{ this.foursquare_venue.contact.formattedPhone }}
               </li>
               <li>
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-                <a href="#">info @example.com</a> <a href="#">info@startravelbangladesh.com</a>
+                <i class="fa fa-globe" aria-hidden="true"></i>
+                <a v-bind:href="`${this.foursquare_venue.url}`">{{ this.foursquare_venue.url }}</a>
+                <a v-bind:href="`https://twitter.com/${this.foursquare_venue.contact.twitter}`">twitter: {{ this.foursquare_venue.contact.twitter}}</a>
+                <a v-bind:href="`https://www.instagram.com/${this.foursquare_venue.contact.instagram}`">instagram: {{ this.foursquare_venue.contact.instagram}}</a>
               </li>
             </ul>
           </div>
         </div>
         <div class="listSidebar">
           <h3>Opening Hours</h3>
-          <ul class="list-unstyled sidebarList">
+          <ul class="list-unstyled sidebarList" v-for="timeframe in foursquare_venue.hours.timeframes">
             <li>
-              <span class="pull-left">Monday</span>
-              <span class="pull-right">08.00am - 05.00pm</span>
-            </li>
-            <li>
-              <span class="pull-left">Tuesday</span>
-              <span class="pull-right">08.00am - 05.00pm</span>
-            </li>
-            <li>
-              <span class="pull-left">Wednesday</span>
-              <span class="pull-right">08.00am - 05.00pm</span>
-            </li>
-            <li>
-              <span class="pull-left">Thrusday</span>
-              <span class="pull-right">08.00am - 05.00pm</span>
-            </li>
-            <li>
-              <span class="pull-left">Friday</span>
-              <span class="pull-right">08.00am - 05.00pm</span>
-            </li>
-            <li>
-              <span class="pull-left">Saturday</span>
-              <span class="pull-right"><a href="#">Closed</a></span>
-            </li>
-            <li>
-              <span class="pull-left">Sunday</span>
-              <span class="pull-right"><a href="#">Closed</a></span>
+              <span class="pull-left">{{ timeframe.days }}</span>
+              <span class="pull-right">{{ timeframe.open[0].renderedTime}}</span>
             </li>
           </ul>
         </div>
