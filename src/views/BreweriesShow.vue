@@ -66,13 +66,6 @@
               </div>
               <div class="media-body">
                 <h4 class="media-heading">{{ tip.user.firstName}} {{ tip.user.lastName }}</h4>
-                <ul class="list-inline rating">
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                </ul>
                 <p>{{ tip.text }}</p>
               </div>
             </div>
@@ -81,9 +74,6 @@
             <h3>Most Popular Beers </h3>
             <!-- need to edit this to show the tips data from foursquare if you want -->
             <div class="media media-comment" v-for="beer in this.brewery.beer_list">
-<!--               <div class="media-left">
-              <img v-bind:src="`${tip.user.photo.prefix}100x100${tip.user.photo.suffix}`" class="media-object img-circle" alt="Image User">
-              </div> -->
               <div class="media-body">
                 <h4 class="media-heading">{{ beer.beer.beer_name}} </h4>
                 <p>Untappd Rating: {{ beer.beer.rating_score }} ({{ beer.beer.rating_count }} Ratings)</p>
@@ -134,7 +124,48 @@
     </div>
   </div>
 </section>
-
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-6">
+        <div class="dashboard-list-box">
+          <div class="list-sort">
+            <div class="sort-left">Recent Checkins</div>
+            <div class="sort-right sort-select">
+              <select name="guiest_id2" id="guiest_id2" class="select-drop">
+                <option value="0">All Listings</option>
+                <option value="1">Tom's Restaurant</option>
+                <option value="2">Sticky Band</option>
+                <option value="3">Hotel Govendor</option>
+                <option value="4">Burger House</option>
+                <option value="5">Airport</option>
+                <option value="6">Think Coffee</option>
+              </select>
+            </div>
+          </div>
+          <div class="single-list" v-for="checkin in brewery.checkins">
+            <div class="media comments-media">
+              <div class="media-left">
+                <a href="#">
+                  <img v-bind:src="`${checkin.user.user_avatar}`" alt="User Image">
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">{{ checkin.user.first_name }} {{ checkin.user.last_name }}<a href=""> had a {{ checkin.beer.beer_name }} </a> <div class="visitor star"></div></h4>
+                <p>Style: {{ checkin.beer.beer_style }} ABV: {{ checkin.beer.beer_abv }}</p>
+                <p> {{ checkin.created_at }}</p>
+                <p>Rating: {{ checkin.rating_score }} / 5</p>
+                <p v-if="checkin.checkin_comment">Comment: {{ checkin.checkin_comment }}</p>
+                <p>Beer Description: {{ checkin.beer.beer_description }}</p>
+                <div class="content-img" v-if="checkin.media.count > 0">
+                  <img v-for="image in checkin.media.items" v-bind:src="`${image.photo.photo_img_lg}`" alt="Image">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <!-- FOOTER -->
   </div>
