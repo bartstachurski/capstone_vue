@@ -13,41 +13,32 @@
               <tr class="rowItem">
                 <th data-priority="">Breweries</th>
                 <th data-priority="1">Visited</th>
-                <th data-priority="6">Views</th>
-                <th data-priority="2">Reviews</th>
-                <th data-priority="3">Posted on</th>
-                <th data-priority="4">Last Edited</th>
-                <th data-priority="5">Status</th>
+                <th data-priority="6">Rating</th>
+                <th data-priority="2">Comment</th>
+                <th data-priority="3">Saved on</th>
               </tr>
             </thead>
             <tbody>
               <tr class="rowItem" v-for="brewery in saved_breweries">
                 <td>
                   <ul class="list-inline listingsInfo">
-                    <li><a href="#"><img src="assets/img/dashboard/listing.jpg" alt="Image Listings"></a></li>
+                    <!-- need to fix the sizing on this -->
+                    <li><a href="#"><img v-bind:src="`${brewery.brewery_label}`" alt="Image Listings"></a></li>
                     <li>
-                      <h3>{{ brewery.venue_name }}<i class="fa fa-check-circle" aria-hidden="false"></i></h3>
+                      <h3>{{ brewery.venue_name }}</h3>
                       <h5>By {{ brewery.brewery_name }}</h5>
                     </li>
                   </ul>
                 </td>
-                <td><i class="fa fa-check primaryColor" aria-hidden="true" v-if="brewery.visited"></i></td>
-                <!-- <td><i class="fa fa-check primaryColor" aria-hidden="true"></i></td> -->
-                <td>784</td>
+                <td v-if="brewery.visited"><span class="label label-success">Yes!</span></td>
+                <td v-else><span class="label label-warning">No</span></td>
+                <!-- <td><i class="fa fa-check primaryColor" aria-hidden="true" v-if="brewery.visited"></i></td> -->
                 <td>
-                  <ul class="list-inline rating">
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                    <li>(7)</li>
-                  </ul>
-
+                  <star-rating v-bind:rating="brewery.rating" :round-start-rating="false"></star-rating>
                 </td>
+                <td>{{brewery.comment}}</td>
                 <td>28/02/2018 <br>9.15am</td>
-                <td>Today <br>11.00am</td>
-                <td><span class="label label-warning">Pending</span></td>
+                <!-- <td><span class="label label-warning">Pending</span></td> -->
               </tr>
             </tbody>
           </table>
@@ -92,6 +83,7 @@
 
 <script>
 import axios from "axios";
+import StarRating from 'vue-star-rating';
 
 export default {
   data: function() {
@@ -100,12 +92,15 @@ export default {
       saved_breweries: []
     };
   },
+  components: {
+    StarRating
+  },
   created: function() {
     axios.get("/api/saved_breweries").then(response => {
       console.log(response.data);
       this.saved_breweries = response.data;
     });
   },
-  methods: {}
+  methods: {},
 };
 </script>

@@ -17,9 +17,6 @@
           <div class="listingReview">
             <span>Foursquare Venue Rating: {{ this.foursquare_venue.rating }} / 10 ( {{ this.foursquare_venue.rating_signals }} Reviews )</span>
             <span>Untappd Brewery Rating: {{ this.brewery.rating_score }} / 5 ( {{ this.brewery.rating_count }} Reviews )</span>
-            <ul class="list-inline captionItem">
-              <li><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</li>
-            </ul>
             <button v-on:click="saveBrewery()" class="btn btn-primary">Save Brewery</button>
           </div>
         </div>
@@ -32,6 +29,8 @@
 <section class="clearfix paddingAdjustTopBottom">
   <ul class="list-inline listingImage">
     <li v-for="image in foursquare_venue.photos.groups[1].items"><img v-bind:src="`${image.prefix}200x150${image.suffix}`" alt="Image Listing" class="img-responsive"></li>
+    <!-- figure out a way to make the images all the same size if you feel like it... -->
+    <!-- <li v-for="image in brewery.brewery.media.items"><img v-bind:src="`${image.photo.photo_img_lg}`" width="200" height="150" alt="Image Listing" class="img-responsive"></li> -->
   </ul>
 </section>
 
@@ -48,13 +47,10 @@
           <div class="detailsInfoBox">
             <h3>Features</h3>
             <ul class="list-inline featuresItems">
-              <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>  Wi-Fi</li>
-              <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>  Street Parking</li>
-              <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>  Alcohol</li>
-              <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>  Vegetarian</li>
-              <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>  Reservations</li>
-              <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>  Pets Friendly</li>
-              <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>  Accept Credit Card</li>
+              <li v-for="attribute in foursquare_venue.attributes.groups"><i class="fa fa-check-circle-o" aria-hidden="true"></i> {{ attribute.name }}: 
+                <div style="display:inline" v-for="item in attribute.items"> {{ item.displayValue }} 
+                </div>
+              </li>
             </ul>
           </div>
           <div class="detailsInfoBox">
@@ -227,6 +223,14 @@
 </template>
 
 <style>
+/*.main-wrapper {
+  position: relative;
+  z-index: 6;
+}*/
+/*.row {
+  position: relative;
+  z-index: 5;
+}*/
 </style>
 
 <script>
@@ -273,6 +277,7 @@ export default {
         venue_name: this.venue.venue_name,
         foursquare_venue_id: this.venue.foursquare_id,
         untappd_venue_id: this.venue.venue_id,
+        brewery_label: this.brewery.brewery_label,
         visited: false,
         rating: "",
         comment: ""
