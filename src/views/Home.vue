@@ -223,7 +223,14 @@ export default {
       lat: 39.975992,
       lon: -75.137289,
       city: "",
-      markers: [],
+      markers: [
+        {
+          position: {
+            lat: 39.975992,
+            lng:-75.137289
+          }
+        }
+      ],
       place: "",
       // category_filter: "brewery",
       breweries: []
@@ -253,6 +260,15 @@ export default {
         this.breweries = response.data;
         console.log("this is the breweries variable");
         console.log(this.breweries);
+      });
+      this.breweries.forEach(function(brewery) {
+        console.log("hello for each brewery from the updated lifecycle");
+        this.markers.push({
+          position: {
+            lat: 39.975992,
+            lng:-75.137289
+          }
+        });
       });
     },
     usePlace(place) {

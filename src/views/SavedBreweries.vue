@@ -27,14 +27,15 @@
                     <li>
                       <router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><h3>{{ brewery.venue_name }}</h3></router-link>
                       <h5>By {{ brewery.brewery_name }}</h5>
+                      <button v-on:click="deleteSavedBrewery(brewery.saved_brewery_id)">Delete</button>
                     </li>
                   </ul>
                 </td>
                 <td v-if="brewery.visited"><span class="label label-success" v-on:click="toggleVisited(brewery.saved_brewery_id, brewery.visited)">Yes!</span></td>
-                <td v-else v-on:click="toggleVisited(brewery.saved_brewery_id, brewery.visited)"><span class="label label-warning">No</span></td>
+                <td v-else v-on:click="toggleVisited(brewery.saved_brewery_id, brewery.visited, brewery.saved_brewery_id)"><span class="label label-warning">No</span></td>
                 <!-- <td><i class="fa fa-check primaryColor" aria-hidden="true" v-if="brewery.visited"></i></td> -->
                 <td>
-                  <star-rating v-on:rating-selected="starsSet($event, brewery.saved_brewery_id)" v-bind:rating="brewery.rating" :round-start-rating="false"></star-rating>
+                  <star-rating v-on:rating-selected="starsSet($event, brewery.saved_brewery_id, brewery.visited)" v-bind:rating="brewery.rating" :round-start-rating="false"></star-rating>
                 </td>
                 <td>{{brewery.comment}}</td>
                 <td>{{brewery.created_at_date}} <br>{{brewery.created_at_time}}</td>
@@ -98,22 +99,35 @@ export default {
     });
   },
   methods: {
-    toggleVisited: function(savedBreweryId, breweryVisited) {
+    deleteSavedBrewery: function(savedBreweryId) {
+      console.log("this is the savedBreweryId from the deleteSavedBrewery method!");
+      console.log(savedBreweryId);
+      axios.delete(`/api/saved_breweries/${savedBreweryId}`).then(response => {
+        console.log(response.data);
+      });
+    },
+    toggleVisited: function(savedBreweryId, breweryVisited, breweryRating) {
       console.log("this is the saved brewery id");
       console.log(savedBreweryId);
       console.log("brewery visited?");
       console.log(breweryVisited);
-      var params = {visited: !breweryVisited};
+      var params = {
+        visited: !breweryVisited,
+        saved_ratingrating: breweryRating
+      };
       axios.patch(`/api/saved_breweries/${savedBreweryId};`, params).then(response => {
         console.log(response.data);
       });
     },
-    starsSet: function(rating, savedBreweryId) {
+    starsSet: function(rating, savedBreweryId, breweryVisited) {
       console.log("hello from the setRating method this is the rating:");
       console.log(rating);
       console.log("this is the saved_brewery_id");
       console.log(savedBreweryId);
-      var params = {saved_rating: rating};
+      var params = {
+        saved_rating: rating,
+        visited: breweryVisited
+      };
       axios.patch(`/api/saved_breweries/${savedBreweryId};`, params).then(response => {
         console.log(response.data);
       });
