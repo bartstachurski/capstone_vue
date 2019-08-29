@@ -23,21 +23,21 @@
                 <td>
                   <ul class="list-inline listingsInfo">
                     <!-- need to fix the sizing on this -->
-                    <li><a href="#"><img v-bind:src="`${brewery.brewery_label}`" alt="Image Listings"></a></li>
+                    <li><a><router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><img v-bind:src="`${brewery.brewery_label}`" alt="Image Listings" v-bind:to="`/breweries/${brewery.untappd_venue_id}`"></router-link></a></li>
                     <li>
-                      <h3>{{ brewery.venue_name }}</h3>
+                      <router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><h3>{{ brewery.venue_name }}</h3></router-link>
                       <h5>By {{ brewery.brewery_name }}</h5>
                     </li>
                   </ul>
                 </td>
-                <td v-if="brewery.visited"><span class="label label-success">Yes!</span></td>
-                <td v-else><span class="label label-warning">No</span></td>
+                <td v-if="brewery.visited"><span class="label label-success" v-on:click="toggleVisited(brewery.saved_brewery_id, brewery.visited)">Yes!</span></td>
+                <td v-else v-on:click="toggleVisited(brewery.saved_brewery_id, brewery.visited)"><span class="label label-warning">No</span></td>
                 <!-- <td><i class="fa fa-check primaryColor" aria-hidden="true" v-if="brewery.visited"></i></td> -->
                 <td>
-                  <star-rating v-bind:rating="brewery.rating" :round-start-rating="false"></star-rating>
+                  <star-rating v-on:rating-selected="starsSet($event, brewery.saved_brewery_id)" v-bind:rating="brewery.rating" :round-start-rating="false"></star-rating>
                 </td>
                 <td>{{brewery.comment}}</td>
-                <td>28/02/2018 <br>9.15am</td>
+                <td>{{brewery.created_at_date}} <br>{{brewery.created_at_time}}</td>
                 <!-- <td><span class="label label-warning">Pending</span></td> -->
               </tr>
             </tbody>
@@ -67,14 +67,8 @@
       </div>
     </div>
   </div>
-</section>
-    <h1>{{ message }}</h1>
-    <div v-for="brewery in saved_breweries">
-      <p> Brewery: {{ brewery.brewery_name }} </p>
-      <p> Visted: {{ brewery.visited }} </p>
-      <p> Rating: {{ brewery.rating }} </p>
-      <p> Comment: {{ brewery.comment }} </p>
-    </div>
+  </section>
+
   </div>
 </template>
 
@@ -84,6 +78,7 @@
 <script>
 import axios from "axios";
 import StarRating from 'vue-star-rating';
+import VueNumeric from 'vue-numeric';
 
 export default {
   data: function() {
@@ -93,7 +88,8 @@ export default {
     };
   },
   components: {
-    StarRating
+    StarRating,
+    VueNumeric
   },
   created: function() {
     axios.get("/api/saved_breweries").then(response => {
@@ -101,6 +97,27 @@ export default {
       this.saved_breweries = response.data;
     });
   },
-  methods: {},
+  methods: {
+    toggleVisited: function(savedBreweryId, breweryVisited) {
+      console.log("this is the saved brewery id");
+      console.log(savedBreweryId);
+      console.log("brewery visited?");
+      console.log(breweryVisited);
+      var params = {visited: !breweryVisited};
+      axios.patch(`/api/saved_breweries/${savedBreweryId};`, params).then(response => {
+        console.log(response.data);
+      });
+    },
+    starsSet: function(rating, savedBreweryId) {
+      console.log("hello from the setRating method this is the rating:");
+      console.log(rating);
+      console.log("this is the saved_brewery_id");
+      console.log(savedBreweryId);
+      var params = {saved_rating: rating};
+      axios.patch(`/api/saved_breweries/${savedBreweryId};`, params).then(response => {
+        console.log(response.data);
+      });
+    }
+  },
 };
 </script>

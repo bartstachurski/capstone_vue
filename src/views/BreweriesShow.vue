@@ -10,8 +10,12 @@
               <h3>By {{ this.brewery.brewery_name }}</h3>
               <p>{{ this.venue.venue_address }}  <br>{{ this.venue.venue_city }}, {{ this.venue.venue_state}} {{this.foursquare_venue.location.postalCode}}, {{ this.venue.venue_country }}</p>
               <div class="listingReview">
-                <span>Foursquare Venue Rating: {{ this.foursquare_venue.rating }} / 10 ( {{ this.foursquare_venue.rating_signals }} Reviews )</span>
-                <span>Untappd Brewery Rating: {{ this.brewery.rating_score }} / 5 ( {{ this.brewery.rating_count }} Reviews )</span>
+                <span>
+                  Foursquare Venue Rating: {{ this.foursquare_venue.rating }} / 10 ( {{ this.foursquare_venue.rating_signals }} Reviews)</span>
+                  <span> {{ this.brewery.rating_score }} / 5 ({{ this.brewery.rating_count }} Reviews)
+                  </span>
+                 
+<!--                   <vue-numeric read-only separator="," v-model="brewery.rating_count"></vue-numeric>  -->
                 <button v-on:click="saveBrewery()" class="btn btn-primary">Save Brewery</button>
               </div>
             </div>
@@ -214,6 +218,9 @@
 
 <script>
 import axios from "axios";
+import VueNumeric from 'vue-numeric';
+import StarRating from 'vue-star-rating';
+
 export default {
   data: function() {
     return {
@@ -222,6 +229,10 @@ export default {
       brewery: {},
       foursquare_venue: {}
     };
+  },
+  components: {
+    StarRating,
+    VueNumeric
   },
   watch: {
     venue: function(val) {

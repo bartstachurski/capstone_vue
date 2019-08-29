@@ -5,6 +5,7 @@ import axios from "axios";
 import Vue2Filters from 'vue2-filters';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import StarRating from 'vue-star-rating';
+import VueNumeric from 'vue-numeric';
 
 Vue.use(VueGoogleMaps, {
   load: {
