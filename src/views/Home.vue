@@ -210,9 +210,10 @@
 </style>
 
 <script>
+
 import axios from "axios";
 import Vue2Filters from 'vue2-filters';
-// import * as VueGoogleMaps from 'vue2-google-maps';
+import * as VueGoogleMaps from 'vue2-google-maps';
 
 // import * as Gmaps from '../public/assets/js/map.js';
 
@@ -221,6 +222,9 @@ export default {
   data: function() {
     return {
       message: "Search for a Brewery",
+      components: {
+        VueGoogleMaps
+      },
       center: {
         lat: 39.983455,
         lng: -75.163378,
@@ -242,6 +246,32 @@ export default {
       breweries: []
     };
   },
+  // watch: {
+  //   breweries: function(val) {
+  //     console.log("val from the breweries watcher");
+  //     console.log(val);
+  //     var mappedBreweries = val;
+  //     val.forEach(function(brewery) {
+  //       mappedBreweries.push(brewery.position);
+  //       console.log('mappedBreweries');
+  //       console.log(mappedBreweries);
+  //     });
+  //     // if the val console.log shows 12 breweries then run a forEach on it next
+  //     // val.forEach(function(brewery) {
+  //     //   console.log("hello for each brewery ");
+  //     //   console.log(brewery.lat);
+  //     //   console.log(brewery.lng);
+  //     //   console.log("hello from watching brewries");
+  //     //   console.log(this.breweries);
+  //     // this.markers.push({
+  //     //   position: {
+  //     //     lat: brewery.lat,
+  //     //     lng: brewery.lng
+  //     //   }
+  //     // });
+  //     // });
+  //   }
+  // },
   created: function() {},
   methods: {
     setDescription(description) {
@@ -264,33 +294,19 @@ export default {
       }).then(response => {
         console.log(response.data);
         this.breweries = response.data;
+        var breweryPositions = [];
+        this.breweries.forEach(function(brewery) {
+          console.log("brewery position from the marker setting loop");
+          console.log(brewery.position);
+          breweryPositions.push(brewery.position);
+        });
+        console.log(breweryPositions);
+        this.markers = this.markers.concat(breweryPositions);
+        console.log("this is this.markers");
+        console.log(this.markers);
+        this.$forceUpdate();
         console.log("this is the breweries variable");
         console.log(this.breweries);
-        this.breweries.forEach(function(brewery) {
-          console.log("hello for each brewery ");
-          console.log(brewery.lat);
-          console.log(brewery.lng);
-          // this.markers.push({
-          //   position: {
-          //     lat: brewery.lat,
-          //     lng: brewery.lng
-          //   }
-          // });
-          console.log("this is this.markers");
-          console.log(this.markers);
-          // this.markers.push(
-          //   position: {
-          //     lat: 39.975992,
-          //     lng: -75.137289
-          //   }
-          // });
-          // this.markers.push({
-          //   position: {
-          //     lat: 39.975992,
-          //     lng:-75.137289
-          //   }
-          // });
-        });
       });
     },
     usePlace(place) {
@@ -301,6 +317,8 @@ export default {
             lng: this.place.geometry.location.lng(),
           }
         });
+        console.log("this is this.markers from the usePLace method");
+        console.log(this.markers);
         this.place = null;
       }
     }
