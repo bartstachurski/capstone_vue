@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
+import Friends from './views/Friends.vue';
 import BreweryShow from './views/BreweriesShow.vue';
 import SavedBreweries from './views/SavedBreweries.vue';
 import Signup from "./views/Signup.vue";
@@ -22,6 +23,11 @@ export default new Router({
       path: '/breweries/:id',
       name: 'breweries-show',
       component: BreweryShow
+    },
+    {
+      path: '/friends',
+      name: 'friends',
+      component: Friends
     },
     {
       path: '/saved_breweries',

@@ -18,7 +18,7 @@
     <!-- <div id="map-canvas"></div> -->
     <div id="map-canvas">
       <GmapMap
-        :center="{lat:this.lat, lng:this.lon}"
+        :center="this.center"
         :zoom="13"
         map-type-id="terrain"
         style="width: 100%; height: 500px"
@@ -212,6 +212,7 @@
 <script>
 import axios from "axios";
 import Vue2Filters from 'vue2-filters';
+// import * as VueGoogleMaps from 'vue2-google-maps';
 
 // import * as Gmaps from '../public/assets/js/map.js';
 
@@ -220,17 +221,22 @@ export default {
   data: function() {
     return {
       message: "Search for a Brewery",
-      lat: 39.975992,
-      lon: -75.137289,
+      center: {
+        lat: 39.983455,
+        lng: -75.163378,
+      },
       city: "",
-      markers: [
-        {
-          position: {
-            lat: 39.975992,
-            lng:-75.137289
-          }
+      markers: [{
+        position: {
+          lat: 39.975992,
+          lng: -75.137289
         }
-      ],
+      }, {
+        position: {
+          lat: 39.97339789999999,
+          lng: -75.17122810000001
+        }
+      }],
       place: "",
       // category_filter: "brewery",
       breweries: []
@@ -246,28 +252,44 @@ export default {
       console.log(this.place);
       console.log("this is the city");
       this.city = this.place.name;
-      this.lat = this.place.geometry.location.lat(),
-      this.lon = this.place.geometry.location.lng(),
-      console.log(this.lat);
-      console.log(this.lon);
+      this.center.lat = this.place.geometry.location.lat(),
+      this.center.lng = this.place.geometry.location.lng(),
+      console.log(this.center.lat);
+      console.log(this.center.lng);
       console.log(this.place.name);
       axios.get("/api/foursquare_venues", {
         params: {
-          ll: this.lat + "," + this.lon
+          ll: this.center.lat + "," + this.center.lng
         }
       }).then(response => {
         console.log(response.data);
         this.breweries = response.data;
         console.log("this is the breweries variable");
         console.log(this.breweries);
-      });
-      this.breweries.forEach(function(brewery) {
-        console.log("hello for each brewery from the updated lifecycle");
-        this.markers.push({
-          position: {
-            lat: 39.975992,
-            lng:-75.137289
-          }
+        this.breweries.forEach(function(brewery) {
+          console.log("hello for each brewery ");
+          console.log(brewery.lat);
+          console.log(brewery.lng);
+          // this.markers.push({
+          //   position: {
+          //     lat: brewery.lat,
+          //     lng: brewery.lng
+          //   }
+          // });
+          console.log("this is this.markers");
+          console.log(this.markers);
+          // this.markers.push(
+          //   position: {
+          //     lat: 39.975992,
+          //     lng: -75.137289
+          //   }
+          // });
+          // this.markers.push({
+          //   position: {
+          //     lat: 39.975992,
+          //     lng:-75.137289
+          //   }
+          // });
         });
       });
     },
