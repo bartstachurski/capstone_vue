@@ -24,7 +24,8 @@
         style="width: 100%; height: 500px"
       >
         <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
-          {{infoContent}}
+          <p>{{infoContent.venue_name}}</p>
+          <p>{{infoContent.venue_city}}, {{infoContent.venue_state}}</p>
         </gmap-info-window>
         <GmapMarker
           :key="m.position.untappd_venue_id"
@@ -32,7 +33,7 @@
           :position="m.position"
           :clickable="true"
           :draggable="true"
-          @click="toggleInfoWindow(m,i)"
+          @click="toggleInfoWindow(m)"
         />
 
     </GmapMap>
@@ -238,7 +239,7 @@ export default {
       place: "",
       // category_filter: "brewery",
       breweries: [],
-      infoContent: '',
+      infoContent: {},
       infoWindowPos: null,
       infoWinOpen: false,
       currentMidx: null,
@@ -270,9 +271,19 @@ export default {
   },
   created: function() {},
   methods: {
-    toggleInfoWindow: function(marker, idx) {
-      console.log(marker, idx);
-      // you are here, need to try to get the info window to show up
+    toggleInfoWindow: function(marker) {
+      console.log(marker);
+      this.infoWindowPos = marker.position;
+      this.infoContent = marker.infoText;
+      //check if its the same marker that was selected if yes toggle
+      if (this.currentMidx === marker.position.untappd_venue_id) {
+        this.infoWinOpen = !this.infoWinOpen;
+      }
+      //if different marker set infowindow to open and reset current marker index
+      else {
+        this.infoWinOpen = true;
+        this.currentMidx = marker.position.untappd_venue_id;
+      }
     },
     setDescription(description) {
       this.description = description;
