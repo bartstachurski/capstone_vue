@@ -23,22 +23,34 @@
         map-type-id="terrain"
         style="width: 100%; height: 500px"
       >
+        <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
+          {{infoContent}}
+        </gmap-info-window>
         <GmapMarker
-          :key="m.untappd_venue_id"
+          :key="m.position.untappd_venue_id"
           v-for="m in markers"
           :position="m.position"
           :clickable="true"
           :draggable="true"
-          @click="center=m.position"
+          @click="toggleInfoWindow(m,i)"
         />
-      </GmapMap>
+
+    </GmapMap>
+
     </div>
   </section>
 
-  <!-- SEARCH SECTION -->
-  <section class="clearfix bg-light">
+<!--   <section class="clearfix bg-light">
     <div class="container">
       <div class="row">
+      </div>
+    </div>
+  </section> -->
+
+
+  <!-- BREWERY RESULTS SECTION -->
+  <section class="clearfix thingsArea">
+    <div class="container">
         <div class="col-xs-12 ">
           <div class="bg-search-white">
               <div class="form-group">
@@ -48,14 +60,6 @@
               </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- BREWERY RESULTS SECTION -->
-  <section class="clearfix thingsArea">
-    <div class="container">
       <div class="page-header text-center">
         <h2>Breweries Near {{ this.city }}</h2>
       </div>
@@ -233,7 +237,18 @@ export default {
       markers: [],
       place: "",
       // category_filter: "brewery",
-      breweries: []
+      breweries: [],
+      infoContent: '',
+      infoWindowPos: null,
+      infoWinOpen: false,
+      currentMidx: null,
+      //optional: offset infowindow so it visually sits nicely on top of our marker
+      infoOptions: {
+        pixelOffset: {
+          width: 0,
+          height: -35
+        }
+      },
     };
   },
   watch: {
@@ -255,6 +270,10 @@ export default {
   },
   created: function() {},
   methods: {
+    toggleInfoWindow: function(marker, idx) {
+      console.log(marker, idx);
+      // you are here, need to try to get the info window to show up
+    },
     setDescription(description) {
       this.description = description;
     },
