@@ -24,8 +24,8 @@
         style="width: 100%; height: 500px"
       >
         <GmapMarker
-          :key="index"
-          v-for="(m, index) in markers"
+          :key="m.untappd_venue_id"
+          v-for="m in markers"
           :position="m.position"
           :clickable="true"
           :draggable="true"
@@ -221,7 +221,7 @@ export default {
   mixins: [Vue2Filters.mixin],
   data: function() {
     return {
-      message: "Search for a Brewery",
+      message: "Search for a Brewery", 
       components: {
         VueGoogleMaps
       },
@@ -233,12 +233,14 @@ export default {
       markers: [{
         position: {
           lat: 39.975992,
-          lng: -75.137289
+          lng: -75.137289,
+          untappd_venue_id: 1
         }
       }, {
         position: {
           lat: 39.97339789999999,
-          lng: -75.17122810000001
+          lng: -75.17122810000001,
+          untappd_venue_id: 2
         }
       }],
       place: "",
@@ -246,32 +248,15 @@ export default {
       breweries: []
     };
   },
-  // watch: {
-  //   breweries: function(val) {
-  //     console.log("val from the breweries watcher");
-  //     console.log(val);
-  //     var mappedBreweries = val;
-  //     val.forEach(function(brewery) {
-  //       mappedBreweries.push(brewery.position);
-  //       console.log('mappedBreweries');
-  //       console.log(mappedBreweries);
-  //     });
-  //     // if the val console.log shows 12 breweries then run a forEach on it next
-  //     // val.forEach(function(brewery) {
-  //     //   console.log("hello for each brewery ");
-  //     //   console.log(brewery.lat);
-  //     //   console.log(brewery.lng);
-  //     //   console.log("hello from watching brewries");
-  //     //   console.log(this.breweries);
-  //     // this.markers.push({
-  //     //   position: {
-  //     //     lat: brewery.lat,
-  //     //     lng: brewery.lng
-  //     //   }
-  //     // });
-  //     // });
-  //   }
-  // },
+  watch: {
+    breweries: {
+      deep: true,
+      handler() {
+        console.log('hello from the breweries watch');
+        this.markers.push(this.breweries[0].position);
+      }
+    }
+  },
   created: function() {},
   methods: {
     setDescription(description) {
@@ -294,17 +279,16 @@ export default {
       }).then(response => {
         console.log(response.data);
         this.breweries = response.data;
-        var breweryPositions = [];
-        this.breweries.forEach(function(brewery) {
-          console.log("brewery position from the marker setting loop");
-          console.log(brewery.position);
-          breweryPositions.push(brewery.position);
-        });
-        console.log(breweryPositions);
-        this.markers = this.markers.concat(breweryPositions);
-        console.log("this is this.markers");
-        console.log(this.markers);
-        this.$forceUpdate();
+        // var breweryPositions = [];
+        // this.breweries.forEach(function(brewery) {
+        //   console.log("brewery position from the marker setting loop");
+        //   console.log(brewery.position);
+        //   this.markers.push(brewery.position);
+        //   // breweryPositions.push(brewery.position);
+        // });
+        // console.log(breweryPositions);
+        // this.markers = this.markers.concat(breweryPositions);
+        // this.$forceUpdate();
         console.log("this is the breweries variable");
         console.log(this.breweries);
       });
@@ -317,9 +301,16 @@ export default {
             lng: this.place.geometry.location.lng(),
           }
         });
-        console.log("this is this.markers from the usePLace method");
-        console.log(this.markers);
+        var mappedPositions = this.markers;
+        this.breweries.forEach(function(brewery) {
+          // this.mappedPositions.push(brewery.position);
+          console.log(brewery.position);
+        });
+        this.markers = this.markers.concat(mappedPositions);
+        // console.log("this is this.markers from the usePLace method");
+        // console.log(this.markers);
         this.place = null;
+        this.$forceUpdate();
       }
     }
   },
