@@ -28,6 +28,13 @@
                       <router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><h3>{{ brewery.venue_name }}</h3></router-link>
                       <h5>By {{ brewery.brewery_name }}</h5>
                       <button v-on:click="deleteSavedBrewery(brewery.saved_brewery_id)">Delete</button>
+                      <!-- Example single danger button -->
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-on:click="addToGroup(brewery.saved_brewery_id)">Add to Group</button>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="#" v-for="group in groups">{{group.name}}</a><br>
+                        </div>
+                      </div>
                     </li>
                   </ul>
                 </td>
@@ -85,7 +92,8 @@ export default {
   data: function() {
     return {
       message: "Your Saved Breweries",
-      saved_breweries: []
+      saved_breweries: [],
+      groups: [],
     };
   },
   components: {
@@ -97,6 +105,11 @@ export default {
       console.log(response.data);
       this.saved_breweries = response.data;
     });
+    axios.get("/api/groups").then(response => {
+      this.groups = response.data;
+      console.log("this is the groups data");
+      console.log(this.groups);
+    });
   },
   methods: {
     deleteSavedBrewery: function(savedBreweryId) {
@@ -105,6 +118,10 @@ export default {
       axios.delete(`/api/saved_breweries/${savedBreweryId}`).then(response => {
         console.log(response.data);
       });
+    },
+    addToGroup: function(savedBreweryId, groupId) {
+      console.log(groupId);
+      console.log(savedBreweryId);
     },
     toggleVisited: function(savedBreweryId, breweryVisited, breweryRating) {
       console.log("this is the saved brewery id");

@@ -7,6 +7,8 @@ import SavedBreweries from './views/SavedBreweries.vue';
 import Signup from "./views/Signup.vue";
 import Login from "./views/Login.vue";
 import Logout from "./views/Logout.vue";
+import Groups from "./views/Groups.vue";
+import GroupsShow from "./views/GroupsShow.vue";
 
 Vue.use(Router);
 
@@ -18,6 +20,16 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/groups',
+      name: 'groups',
+      component: Groups
+    },
+    {
+      path: '/groups/:id',
+      name: 'groups-show',
+      component: GroupsShow
     },
     {
       path: '/breweries/:id',
