@@ -230,19 +230,7 @@ export default {
         lng: -75.163378,
       },
       city: "",
-      markers: [{
-        position: {
-          lat: 39.975992,
-          lng: -75.137289,
-          untappd_venue_id: 1
-        }
-      }, {
-        position: {
-          lat: 39.97339789999999,
-          lng: -75.17122810000001,
-          untappd_venue_id: 2
-        }
-      }],
+      markers: [],
       place: "",
       // category_filter: "brewery",
       breweries: []
@@ -253,7 +241,15 @@ export default {
       deep: true,
       handler() {
         console.log('hello from the breweries watch');
-        this.markers.push(this.breweries[0].position);
+        var markerPositions = [];
+        this.breweries.forEach(function(brewery) {
+          console.log("this is brewery.position");
+          console.log(brewery.position);
+          markerPositions.push(brewery.position);
+        });
+        this.markers = this.markers.concat(markerPositions);
+        console.log("this is this.markers");
+        console.log(this.markers);
       }
     }
   },
@@ -301,16 +297,16 @@ export default {
             lng: this.place.geometry.location.lng(),
           }
         });
-        var mappedPositions = this.markers;
-        this.breweries.forEach(function(brewery) {
-          // this.mappedPositions.push(brewery.position);
-          console.log(brewery.position);
-        });
-        this.markers = this.markers.concat(mappedPositions);
+        // var mappedPositions = this.markers;
+        // this.breweries.forEach(function(brewery) {
+        //   // this.mappedPositions.push(brewery.position);
+        //   console.log(brewery.position);
+        // });
+        // this.markers = this.markers.concat(mappedPositions);
         // console.log("this is this.markers from the usePLace method");
         // console.log(this.markers);
         this.place = null;
-        this.$forceUpdate();
+        // this.$forceUpdate();
       }
     }
   },
