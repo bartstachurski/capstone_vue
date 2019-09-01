@@ -23,16 +23,16 @@
                 <td>
                   <ul class="list-inline listingsInfo">
                     <!-- need to fix the sizing on this -->
-                    <li><a><router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><img v-bind:src="`${brewery.brewery_label}`" alt="Image Listings" v-bind:to="`/breweries/${brewery.untappd_venue_id}`"></router-link></a></li>
+                    <li><a><router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><img style="max-width: 125px; height: auto; " v-bind:src="`${brewery.brewery_label}`" alt="Image Listings" v-bind:to="`/breweries/${brewery.untappd_venue_id}`"></router-link></a></li>
                     <li>
                       <router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><h3>{{ brewery.venue_name }}</h3></router-link>
                       <h5>By {{ brewery.brewery_name }}</h5>
-                      <button v-on:click="deleteSavedBrewery(brewery.saved_brewery_id)">Delete</button>
+                      <button class="btn btn-primary"v-on:click="deleteSavedBrewery(brewery.saved_brewery_id)">Delete</button> 
                       <!-- Example single danger button -->
                       <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-on:click="addToGroup(brewery.saved_brewery_id)">Add to Group</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Add to Group</button>
                         <div class="dropdown-menu">
-                          <a class="dropdown-item" href="#" v-for="group in groups">{{group.name}}</a><br>
+                          <a class="dropdown-item" href="#" v-for="group in groups" v-on:click="addToGroup(brewery.saved_brewery_id, group.id)">{{group.name}}</a><br>
                         </div>
                       </div>
                     </li>
@@ -81,6 +81,7 @@
 </template>
 
 <style>
+
 </style>
 
 <script>
@@ -94,6 +95,8 @@ export default {
       message: "Your Saved Breweries",
       saved_breweries: [],
       groups: [],
+      searchTerm: "",
+      friends: []
     };
   },
   components: {
@@ -110,6 +113,11 @@ export default {
       console.log("this is the groups data");
       console.log(this.groups);
     });
+    axios.get("/api/friendships").then(response => {
+      this.friends = response.data;
+      console.log("this is this.friends");
+      console.log(this.friends);
+    });
   },
   methods: {
     deleteSavedBrewery: function(savedBreweryId) {
@@ -122,6 +130,13 @@ export default {
     addToGroup: function(savedBreweryId, groupId) {
       console.log(groupId);
       console.log(savedBreweryId);
+      var params = {
+        saved_brewery_id: savedBreweryId,
+        group_id: groupId
+      };
+      axios.post("/api/saved_brewery_groups", params).then(response => {
+        console.log(response.data);
+      });
     },
     toggleVisited: function(savedBreweryId, breweryVisited, breweryRating) {
       console.log("this is the saved brewery id");

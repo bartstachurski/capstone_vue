@@ -33,17 +33,16 @@
               </ul>
               <div class="row adjustRow">
                 <div class="pull-right col-xs-12 col-sm-4">
-                  <form class="navbar-form" role="search">
-                    <div class="input-group">
-                      <input v-model="searchTerm" type="text" class="form-control" placeholder="Search for New Friends" name="q" list="users">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><i class="icon-listy icon-search-2"></i></button>
-                      </span>
-                      <datalist id="users">
-                        <option v-for="user in users">{{ user.first_name }} {{ user.last_name }}</option>
+                  <div class="input-group">
+                    <input v-model="searchTerm" type="text" class="form-control" placeholder="Search for New Friends" name="q" list="users">
+                    <span class="input-group-btn">
+                      <button  class="btn btn-default" type="button"><i class="icon-listy icon-search-2"></i></button>
+                    </span>
+                    <datalist id="users">
+                      <!-- This isn't working -->
+                      <option v-for="user in users">{{ user.first_name }} {{ user.last_name }} </option>
                     </datalist>
-                    </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
@@ -201,6 +200,10 @@ export default {
         console.log("data received from the friend request destroy action");
         console.log(response.data);
       });
+    },
+    createFriendRequest: function(friendId) {
+      console.log("this is the friendId");
+      console.log(friendId);
     }
   }
 };

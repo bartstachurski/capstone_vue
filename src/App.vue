@@ -30,9 +30,12 @@
                     <li class=""><a href="/">home </a></li>
                     <li class=""><a href="/saved_breweries">saved breweries </a></li>
                     <li class=""><a href="/friends">friends </a></li>
+                    <li class=""><a href="/groups">groups </a></li>
+                    <li class=""><a href="/signup">Create Account</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
                   </ul>
               </div>
-              <a class="btn btn-default navbar-btn" href="add-listings.html"> + <span>Add Listing</span></a>
             </div>
           </nav>
         </div>
@@ -62,11 +65,9 @@
                 </div>
                 <div class="useLink">
                   <ul class="list-unstyled">
-                    <li><a href="dashboard.html">Dashboard</a></li>
                     <li><a href="/signup">Create Account</a></li>
                     <li><a href="/login">Login</a></li>
-                    <li><a href="add-listings.html">Add Listing</a></li>
-                    <li><a href="edit-listings.html">Edit Listing</a></li>
+                    <li><a href="/logout">Logout</a></li>
                   </ul>
                 </div>
               </div>
