@@ -41,12 +41,7 @@
     </div>
   </section>
 
-<!--   <section class="clearfix bg-light">
-    <div class="container">
-      <div class="row">
-      </div>
-    </div>
-  </section> -->
+
 
 
   <!-- BREWERY RESULTS SECTION -->
@@ -88,82 +83,6 @@
               </ul>
             </div>
           </div>
-        </div>
-
-
-
-        <div class="col-xs-12">
-          <div class="btnArea btnAreaBorder text-center">
-            <a href="listings-half-screen-map-list.html" class="btn btn-primary">Explore More</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- SERVICES SECTION -->
-  <section class="clearfix servicesSection">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="servicesItem">
-            <ul class="list-inline listServices">
-              <li>
-                <div class="servicesIcon">
-                  <i class="icon-listy icon-key"></i>
-                </div>
-                <div class="servicesInfo">
-                  <h2>Secure Trading</h2>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed eiusmod</p>
-                </div>
-              </li>
-              <li>
-                <div class="servicesIcon">
-                  <i class="icon-listy icon-wreath"></i>
-                </div>
-                <div class="servicesInfo">
-                  <h2>24/7 Hours Support</h2>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed eiusmod</p>
-                </div>
-              </li>
-              <li>
-                <div class="servicesIcon">
-                  <i class="icon-listy icon-tag3"></i>
-                </div>
-                <div class="servicesInfo">
-                  <h2>Easy Trading</h2>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed eiusmod</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- APP DOWNLOAD SECTION -->
-  <section class="clearfix appDownload">
-    <div class="container">
-      <div class="page-header text-center">
-        <h2>Download on App Store</h2>
-      </div>
-      <div class="row">
-        <div class="col-sm-4 col-xs-12">
-          <a href="#" class="btn btn-primary btn-transparent">
-            <i class="icon-listy icon-playstore"></i><span>available on <br><strong>Google Play</strong></span>
-          </a>
-        </div>
-        <div class="col-sm-4 col-xs-12">
-          <a href="#" class="btn btn-primary btn-transparent">
-            <i class="icon-listy icon-apple"></i><span>available on <br><strong>App Store</strong></span>
-          </a>
-        </div>
-        <div class="col-sm-4 col-xs-12">
-          <a href="#" class="btn btn-primary btn-transparent">
-            <i class="icon-listy icon-microsoft"></i><span>available on <br><strong>Microsoft Store</strong></span>
-          </a>
         </div>
       </div>
     </div>

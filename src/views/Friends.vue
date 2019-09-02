@@ -31,12 +31,20 @@
                     Messages</a>
                 </li> -->
               </ul>
+              <form class="pull-right col-xs-12 col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Search</button>
+                  </span>
+                </div>
+              </form>
               <div class="row adjustRow">
                 <div class="pull-right col-xs-12 col-sm-4">
                   <div class="input-group">
                     <input v-model="searchTerm" type="text" class="form-control" placeholder="Search for New Friends" name="q" list="users">
                     <span class="input-group-btn">
-                      <button  class="btn btn-default" type="button"><i class="icon-listy icon-search-2"></i></button>
+                      <button class="btn btn-default" type="button"><i class="icon-listy icon-search-2"></i></button>
                     </span>
                     <datalist id="users">
                       <!-- This isn't working -->
