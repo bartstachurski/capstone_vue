@@ -21,11 +21,9 @@
         :center="this.center"
         :zoom="13"
         map-type-id="terrain"
-        style="width: 100%; height: 500px"
+        style="width: 100%; height: 100%"
       >
         <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
-<!--           <img v-bind:src="`${infoContentFoursquareVenue.best_photo.prefix}200x150${infoContentFoursquareVenue.best_photo.suffix}`"> -->
-          <!-- <p>{{infoContentFoursquareVenue.best_photo.prefix}} 200x150 {{infoContentFoursquareVenue.best_photo.suffix}} </p> -->
           <img v-bind:src="`${infoContentFoursquareVenue.best_photo.prefix}200x150${infoContentFoursquareVenue.best_photo.suffix}`">
           <p>{{infoContent.venue_name}}</p>
           <p>{{infoContent.venue_city}}, {{infoContent.venue_state}}</p>
@@ -39,97 +37,26 @@
           :draggable="true"
           @click="toggleInfoWindow(m)"
         />
-
-    </GmapMap>
-
+      </GmapMap>
+    </div>
+    <div class="row">
+      <div class="container">
+          <div class="col-xs-12" align="center">
+            <div class="bg-search-white" max-width="200px">
+                <div class="form-group">
+                  <GmapAutocomplete @place_changed="setPlace">
+                  </GmapAutocomplete>
+                  <button v-on:click="usePlace" type="submit" class="btn btn-primary">Search </button>
+                </div>
+            </div>
+          </div>
+      </div>
     </div>
   </section>
-
-
-
 
   <!-- BREWERY RESULTS SECTION -->
   <section class="clearfix thingsArea">
-    <div class="container">
-        <div class="col-xs-12">
-          <div class="bg-search-white">
-              <div class="form-group">
-                <GmapAutocomplete @place_changed="setPlace">
-                </GmapAutocomplete>
-                <button v-on:click="usePlace" type="submit" class="btn btn-primary">Search </button>
-              </div>
-          </div>
-        </div>
-      <div class="page-header text-center">
-        <h2>Breweries Near {{ this.city }}</h2>
-      </div>
-      <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12" v-for="brewery in breweries">
-          <div class="thingsBox thinsSpace">
-            <div class="thingsImage">
-              <img src="assets/img/listing/listing-4.jpg" alt="Image things">
-              <div class="thingsMask">
-                <ul class="list-inline rating">
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                  <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                </ul>
-                <router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><h2>{{ brewery.venue_name }}<i class="fa fa-check-circle" aria-hidden="true"></i></h2></router-link>
-                <p>{{ brewery.venue_address }}, {{ brewery.venue_state }}</p>
-              </div>
-            </div>
-            <div class="thingsCaption ">
-              <ul class="list-inline captionItem">
-                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 8 k</li>
-                <li><a href="listings-half-screen-map-list.html">Eat & Drink</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
-
-    </div>
-
-    <!-- LOGIN  MODAL -->
-    <div id="loginModal" tabindex="-1" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Log In to your Account</h4>
-          </div>
-          <div class="modal-body">
-            <form class="loginForm">
-              <div class="form-group">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-                <input type="email" class="form-control" id="email" placeholder="Email">
-              </div>
-              <div class="form-group">
-                <i class="fa fa-lock" aria-hidden="true"></i>
-                <input type="password" class="form-control" id="pwd" placeholder="Password">
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Log In</button>
-              </div>
-              <div class="checkbox">
-                <label><input type="checkbox"> Remember me</label>
-                <a href="#" class="pull-right link">Fogot Password?</a>
-              </div>
-
-            </form>
-          </div>
-          <div class="modal-footer">
-            <p>Don’t have an Account? <a href="#" class="link">Sign up</a></p>
-          </div>
-        </div>
-
-      </div>
     </div>
   </div>
 </template>
