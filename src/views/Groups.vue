@@ -49,7 +49,7 @@
                 <div class="row">
                   <div class="col-sm-5 col-xs-12">
                     <div class="categoryImage">
-                      <router-link v-bind:to="`/groups/${group.id}`"><img src="assets/img/listing/listing-4.jpg" alt="Image category" class="img-responsive img-rounded"></router-link>
+                      <router-link v-bind:to="`/groups/${group.id}`"><img v-bind:src="group.photo_url" alt="Image category" class="img-responsive img-rounded"></router-link>
                       <span class="label label-primary">Verified</span>
                     </div>
                   </div>

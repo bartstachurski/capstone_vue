@@ -24,8 +24,12 @@
         style="width: 100%; height: 500px"
       >
         <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
+<!--           <img v-bind:src="`${infoContentFoursquareVenue.best_photo.prefix}200x150${infoContentFoursquareVenue.best_photo.suffix}`"> -->
+          <!-- <p>{{infoContentFoursquareVenue.best_photo.prefix}} 200x150 {{infoContentFoursquareVenue.best_photo.suffix}} </p> -->
+          <img v-bind:src="`${infoContentFoursquareVenue.best_photo.prefix}200x150${infoContentFoursquareVenue.best_photo.suffix}`">
           <p>{{infoContent.venue_name}}</p>
           <p>{{infoContent.venue_city}}, {{infoContent.venue_state}}</p>
+          <p>Rating: {{infoContentFoursquareVenue.rating}} / 10 ({{infoContentFoursquareVenue.rating_signals}} Ratings) </p>
         </gmap-info-window>
         <GmapMarker
           :key="m.position.untappd_venue_id"
@@ -47,7 +51,7 @@
   <!-- BREWERY RESULTS SECTION -->
   <section class="clearfix thingsArea">
     <div class="container">
-        <div class="col-xs-12 ">
+        <div class="col-xs-12">
           <div class="bg-search-white">
               <div class="form-group">
                 <GmapAutocomplete @place_changed="setPlace">
@@ -159,6 +163,14 @@ export default {
       // category_filter: "brewery",
       breweries: [],
       infoContent: {},
+      infoContentUntappdVenue: {},
+      infoContentUntappdBrewery: {},
+      infoContentFoursquareVenue: {
+        best_photo: {
+          prefix: "test",
+          suffic: "test"
+        }
+      },
       infoWindowPos: null,
       infoWinOpen: false,
       currentMidx: null,
@@ -191,9 +203,16 @@ export default {
   created: function() {},
   methods: {
     toggleInfoWindow: function(marker) {
+      axios.get(`/api/foursquare_venues/${marker.infoText.untappd_venue_id}`).then(response => {
+        console.log("this is the resposne from foursuare venue show from toggleinfoWindow");
+        this.infoContentFoursquareVenue = response.data;
+        console.log(response.data);
+      });
       console.log(marker);
       this.infoWindowPos = marker.position;
       this.infoContent = marker.infoText;
+      console.log("this is this.infoContent");
+      console.log(this.infoContent);
       //check if its the same marker that was selected if yes toggle
       if (this.currentMidx === marker.position.untappd_venue_id) {
         this.infoWinOpen = !this.infoWinOpen;
@@ -224,16 +243,6 @@ export default {
       }).then(response => {
         console.log(response.data);
         this.breweries = response.data;
-        // var breweryPositions = [];
-        // this.breweries.forEach(function(brewery) {
-        //   console.log("brewery position from the marker setting loop");
-        //   console.log(brewery.position);
-        //   this.markers.push(brewery.position);
-        //   // breweryPositions.push(brewery.position);
-        // });
-        // console.log(breweryPositions);
-        // this.markers = this.markers.concat(breweryPositions);
-        // this.$forceUpdate();
         console.log("this is the breweries variable");
         console.log(this.breweries);
       });
@@ -246,57 +255,9 @@ export default {
             lng: this.place.geometry.location.lng(),
           }
         });
-        // var mappedPositions = this.markers;
-        // this.breweries.forEach(function(brewery) {
-        //   // this.mappedPositions.push(brewery.position);
-        //   console.log(brewery.position);
-        // });
-        // this.markers = this.markers.concat(mappedPositions);
-        // console.log("this is this.markers from the usePLace method");
-        // console.log(this.markers);
         this.place = null;
-        // this.$forceUpdate();
       }
     }
   },
-  // mounted() {
-  //   this.autocomplete = new google.maps.places.Autocomplete((this.$refs.autocomplete),{types: ['geocode']}
-  //   );
-  //   this.autocomplete.addListener('place_changed', () => {
-  //     let place = this.autocomplete.getPlace();
-  //     let ac = place.address_components;
-  //     console.log("these are the places address components:");
-  //     console.log(ac);
-  //     let lat = place.geometry.location.lat();
-  //     let lon = place.geometry.location.lng();
-  //     let city = ac[0]["short_name"];
-  //     this.lat = lat;
-  //     this.lon = lon;
-  //     this.city = city;
-  //     console.log(this.lat);
-  //     console.log(this.lon);
-  //     console.log(this.city);
-  //     // axios.get("/api/brewery_db_searches", {
-  //     //   params: {
-  //     //     lat: this.lat,
-  //     //     lng: this.lon,
-  //     //   }
-  //     // }).then(response => {
-  //     //   console.log(response.data);
-  //     //   this.breweries = response.data;
-  //     //   console.log("this is the brewries variable");
-  //     //   console.log(this.breweries);
-  //     axios.get("/api/untappd_venues", {
-  //       params: {
-  //         city: this.city
-  //       }
-  //     }).then(response => {
-  //       console.log(response.data);
-  //       this.breweries = response.data;
-  //       console.log("this is the breweries variable");
-  //       console.log(this.breweries);
-  //     });
-  //   });
-  // }
 };
 </script>

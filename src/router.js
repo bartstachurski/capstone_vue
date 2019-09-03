@@ -9,6 +9,7 @@ import Login from "./views/Login.vue";
 import Logout from "./views/Logout.vue";
 import Groups from "./views/Groups.vue";
 import GroupsShow from "./views/GroupsShow.vue";
+import UsersShow from "./views/UsersShow.vue";
 
 Vue.use(Router);
 
@@ -20,6 +21,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/users/:id',
+      name: 'users-show',
+      component: UsersShow
     },
     {
       path: '/groups',

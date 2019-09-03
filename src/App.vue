@@ -71,20 +71,6 @@
                   </ul>
                 </div>
               </div>
-              <div class="col-sm-2 col-xs-12">
-                <div class="footerInfoTitle">
-                  <h4>Company</h4>
-                </div>
-                <div class="useLink">
-                  <ul class="list-unstyled">
-                    <li><a href="contact-us.html">Contact Us</a></li>
-                    <li><a href="terms-of-services.html">Terms and Conditions</a></li>
-                    <li><a href="how-it-works.html">How It Works</a></li>
-                    <li><a href="payment-process.html">Payment</a></li>
-                    <li><a href="pricing-table.html">Pricing</a></li>
-                  </ul>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -106,7 +92,7 @@
                     </div>
                     <div class="col-sm-7 col-sm-pull-5 col-xs-12">
                       <div class="copyRightText">
-                        <p>Copyright &copy; 2019. All Rights Reserved by <a href="http://www.iamabdus.com/" target="_blank">Abdus</a></p>
+                        <p>Copyright &copy; 2019. All Rights Reserved by <a href="http://www.iamabdus.com/" target="_blank">Brewtrip</a></p>
                       </div>
                     </div>
                   </div>

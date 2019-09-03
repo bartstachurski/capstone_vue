@@ -25,32 +25,19 @@
                 <li class="" v-on:click="setGroup('friend_requests')">
                   <a><i class="fa fa-cogs icon-dash" aria-hidden="true" ></i>Pending Friend Requests</a>
                 </li>
-<!--                 <li>
-                  <a href="dashboard.html#message" class="scrolling">
-                    <i class="fa fa-envelope icon-dash" aria-hidden="true"> </i>
-                    Messages</a>
-                </li> -->
               </ul>
-              <form class="pull-right col-xs-12 col-sm-4">
-                <div class="input-group">
-                  <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit">Search</button>
-                  </span>
-                </div>
-              </form>
+              
               <div class="row adjustRow">
                 <div class="pull-right col-xs-12 col-sm-4">
-                  <div class="input-group">
-                    <input v-model="searchTerm" type="text" class="form-control" placeholder="Search for New Friends" name="q" list="users">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button"><i class="icon-listy icon-search-2"></i></button>
-                    </span>
-                    <datalist id="users">
-                      <!-- This isn't working -->
-                      <option v-for="user in users">{{ user.first_name }} {{ user.last_name }} </option>
-                    </datalist>
-                  </div>
+                <div class="input-group">
+                  <input v-model="searchTerm" class="form-control" type="search" placeholder="Search" aria-label="Search" list="users">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" v-on:click="searchClick()"><i class="icon-listy icon-search-2"></i></button>
+                  </span>
+                  <datalist id="users">
+                    <option v-bind:data-value="user.id" v-for="user in users">{{ user.first_name }} {{ user.last_name }} </option>
+                  </datalist>
+                </div>
                 </div>
               </div>
             </div>
@@ -63,6 +50,28 @@
         <div class="container">
           <div class="row">
             <div class="col-xs-12">
+              <div v-if="searchTerm != ''" class="dashboard-list-box">  
+                  <div v-if="searchTerm != ''" class="single-list" v-bind:key="user.id" v-for="user in filterBy(users, this.searchTerm, 'full_name')">
+                    <div class="media booking-list-media">
+                      <div class="media-left">
+                        <router-link v-bind:to="`/users/${user.id}`">
+                          <img v-bind:src="user.profile_photo" alt="User Image">
+                        </router-link>
+                      </div>
+                      <div class="media-body">
+                        <router-link v-bind:to="`/users/${user.id}`">  
+                          <h4 class="media-heading">{{ user.first_name }} {{ user.last_name }}</h4>
+                        </router-link>
+                        <div class="booking-list">User Since: <span class="highlight bg-warning">{{ user.created_at_date }} {{ user.created_at_time }}</span></div>
+                        <div class="booking-list">Email: <span>{{user.email}}</span></div>
+                        <a :href="`mailto:${user.email}`" class="btn btn-primary">send email</a>
+                        <button v-on:click="createFriendRequest(user.id)" class="btn btn-primary approved">Send Friend Request</button>
+                      </div>
+                        <div class="right-btn">
+                        </div>
+                    </div>
+                  </div>
+              </div>
               <div v-if="group == 'friends'" class="dashboard-list-box">
                 <div class="list-sort">
                   <div class="sort-left">Friends</div>
@@ -73,19 +82,20 @@
                 <div class="single-list" v-for="friend in friends">
                   <div class="media booking-list-media">
                     <div class="media-left">
-                      <a href="#">
-                        <img src="assets/img/dashboard/comments-01.jpg" alt="User Image">
-                      </a>
+                      <router-link v-bind:to="`/users/${friend.id}`">
+                        <img v-bind:src="friend.profile_photo" alt="User Image">
+                      </router-link>
                     </div>
                     <div class="media-body">
-                      <h4 class="media-heading">{{ friend.first_name }} {{ friend.last_name }}<span class="label label-warning">pending</span></h4>
+                      <router-link v-bind:to="`/users/${friend.id}`">  
+                        <h4 class="media-heading">{{ friend.first_name }} {{ friend.last_name }}<span class="label label-warning">pending</span></h4>
+                      </router-link>
                       <div class="booking-list ">Friend Since: <span class="highlight bg-warning">{{ friend.created_at_date }} {{ friend.created_at_time }}</span></div>
                       <div class="booking-list">Email: <span>{{friend.email}}</span></div>
                       <a :href="`mailto:${friend.email}`" class="btn btn-primary">send email</a>
                     </div>
                     <div class="right-btn">
-                      <a href="#" class="btn btn-primary cancel">cancel</a>
-                      <a href="#" class="btn btn-primary approved">approve</a>
+                      <button v-on:click="deleteFriend(friend.id)" class="btn btn-primary cancel">delete friend</button>
                     </div>
                   </div>
                 </div>
@@ -100,19 +110,21 @@
                 <div class="single-list" v-for="friendRequest in friendRequests.incoming">
                   <div class="media booking-list-media">
                     <div class="media-left">
-                      <a href="#">
-                        <img src="assets/img/dashboard/comments-01.jpg" alt="User Image">
-                      </a>
+                      <router-link v-bind:to="`/users/${friendRequest.user_id}`">
+                        <img v-bind:src="friendRequest.user_details.profile_photo" alt="User Image">
+                      </router-link>
                     </div>
                     <div class="media-body">
-                      <h4 class="media-heading">{{ friendRequest.user_details.first_name }} {{ friendRequest.user_details.last_name }}<span class="label label-warning">pending</span></h4>
+                      <router-link v-bind:to="`/users/${friendRequest.user_id}`">
+                        <h4 class="media-heading">{{ friendRequest.user_details.first_name }} {{ friendRequest.user_details.last_name }}<span class="label label-warning">pending</span></h4>
+                      </router-link>
                       <div class="booking-list ">Request Received: <span class="highlight bg-warning">{{ friendRequest.created_at_date }} {{ friendRequest.created_at_time }}</span></div>
                       <div class="booking-list">Email: <span>{{friendRequest.user_details.email}}</span></div>
                       <a :href="`mailto:${friendRequest.user_details.email}`" class="btn btn-primary">send email</a>
                     </div>
                     <div class="right-btn">
                       <a v-on:click="declineRequest(friendRequest.id)" class="btn btn-primary cancel">decline</a>
-                      <a href="#" class="btn btn-primary approved">approve</a>
+                      <button v-on:click="acceptFriendRequest(friendRequest.id)" class="btn btn-primary approved">accept</button>
                     </div>
                   </div>
                 </div>
@@ -125,19 +137,16 @@
                 <div class="single-list" v-for="friendRequest in friendRequests.outgoing">
                   <div class="media booking-list-media">
                     <div class="media-left">
-                      <a href="#">
-                        <img src="assets/img/dashboard/comments-01.jpg" alt="User Image">
-                      </a>
+                      <router-link v-bind:to="`/users/${friendRequest.friend_details.id}`">
+                        <img v-bind:src="friendRequest.friend_details.profile_photo" alt="User Image">
+                      </router-link>
                     </div>
                     <div class="media-body">
-                      <h4 class="media-heading">{{ friendRequest.friend_details.first_name }} {{ friendRequest.friend_details.last_name }}<span class="label label-warning">pending</span></h4>
-                      <div class="booking-list ">Friend Since: <span class="highlight bg-warning">{{ friendRequest.friend_details.created_at }} {{ friendRequest.friend_details.created_at }}</span></div>
-                      <div class="booking-list">Email: <span>{{friendRequest.friend_details.email}}</span></div>
+                      <router-link v-bind:to="`/users/${friendRequest.friend_details.id}`">
+                        <h4 class="media-heading">{{ friendRequest.friend_details.first_name }} {{ friendRequest.friend_details.last_name }}<span class="label label-warning">pending</span></h4>
+                      </router-link>
+                      <div class="booking-list ">Sent Request: <span class="highlight bg-warning">{{ friendRequest.created_at_date }} {{ friendRequest.created_at_time }}</span></div>
                       <a :href="`mailto:${friendRequest.friend_details.email}`" class="btn btn-primary">send email</a>
-                    </div>
-                    <div class="right-btn">
-                      <a href="#" class="btn btn-primary cancel">cancel</a>
-                      <a href="#" class="btn btn-primary approved">approve</a>
                     </div>
                   </div>
                 </div>
@@ -153,6 +162,30 @@
 </template>
 
 <style>
+  .autocomplete {
+    position: relative;
+    width: 130px;
+  }
+
+  .autocomplete-results {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #eeeeee;
+    height: 120px;
+    overflow: auto;
+  }
+
+  .autocomplete-result {
+    list-style: none;
+    text-align: left;
+    padding: 4px 2px;
+    cursor: pointer;
+  }
+
+  .autocomplete-result:hover {
+    background-color: #4AAE9B;
+    color: white;
+  }
 </style>
 
 <script>
@@ -166,7 +199,9 @@ export default {
       message: "Welcome to the friends page!",
       friends: [],
       friendRequests: [],
+      search: '',
       searchTerm: "",
+      searchUser: {},
       group: "friends",
       users: [],
       selected: null,
@@ -212,6 +247,34 @@ export default {
     createFriendRequest: function(friendId) {
       console.log("this is the friendId");
       console.log(friendId);
+      var params = {
+        friend_id: friendId
+      };
+      axios.post(`/api/friend_requests`, params).then(response => {
+        console.log("data received from the friend request create action");
+        console.log(response.data);
+      });
+    },
+    acceptFriendRequest: function(friendId) {
+      console.log(friendId);
+      var params = {
+        accepted: true
+      };
+      axios.patch(`/api/friend_requests/${friendId}`, params).then(response => {
+        console.log("dat received from the friend request update aka accept action");
+        console.log(response.data);
+      });
+    },
+    searchClick: function(value) {
+      console.log(value);
+    },
+    deleteFriend: function(friendId) {
+      console.log("this is the friendId from the deslete friend method");
+      console.log(friendId);
+      axios.delete(`/api/friendships/${friendId}`).then(response => {
+        console.log("data received from the friend request destroy action");
+        console.log(response.data);
+      });
     }
   }
 };
