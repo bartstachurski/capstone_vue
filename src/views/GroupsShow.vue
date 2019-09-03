@@ -82,6 +82,7 @@
             </ul>
           </nav>
         </div>
+        <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" :awss3="awss3" v-on:vdropzone-s3-upload-error="s3UploadError" v-on:vdropzone-s3-upload-success="s3UploadSuccess"></vue-dropzone>
       </div>
     </div>
   </div>
@@ -96,13 +97,29 @@
 <script>
 import axios from "axios";
 import VueNumeric from 'vue-numeric';
+import vue2Dropzone from 'vue2-dropzone';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 
 export default {
   data: function() {
     return {
       message: "Welcome to groupsShow.js!",
       group: {},
-      friends: []
+      friends: [],
+      dropzoneOptions: {
+        url: 'http://localhost:3000/api/aws_s3_group_photos_uploads',
+        thumbnailWidth: 150,
+        maxFilesize: 10,
+        headers: { "My-Awesome-Header": "header value" },
+        method: "PUT"
+      },
+      awss3: {
+        signingURL: 'https://brewtrip-group-photos.s3.us-east-2.amazonaws.com/image?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAYDO2DFJAEP47FFNE%2F20190903%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20190903T153242Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=6d3d6fa0cd9adcf95c1b7f7cb5a95ae6041dd1870ac48f6955b234e5f7defde9',
+        headers: {},
+        params : {},
+        sendFileToServer : true,
+        withCredentials: false
+      },
     };
   },
   created: function() {
@@ -116,6 +133,9 @@ export default {
       console.log("this is this.friends");
       console.log(this.friends);
     });
+  },
+  components: {
+    vueDropzone: vue2Dropzone
   },
   methods: {
     removeFromGroup: function(savedBreweryId) {

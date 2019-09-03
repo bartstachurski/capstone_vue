@@ -28,6 +28,7 @@
           <p>{{infoContent.venue_name}}</p>
           <p>{{infoContent.venue_city}}, {{infoContent.venue_state}}</p>
           <p>Rating: {{infoContentFoursquareVenue.rating}} / 10 ({{infoContentFoursquareVenue.rating_signals}} Ratings) </p>
+          <router-link v-bind:to="`/breweries/${infoContent.untappd_venue_id}`"> <button>Show All Info</button></router-link>
         </gmap-info-window>
         <GmapMarker
           :key="m.position.untappd_venue_id"
@@ -39,23 +40,27 @@
         />
       </GmapMap>
     </div>
+  </section>
+
+  <!-- BREWERY RESULTS SECTION -->
+  <section class="clearfix thingsArea">
     <div class="row">
       <div class="container">
           <div class="col-xs-12" align="center">
-            <div class="bg-search-white" max-width="200px">
+            <div class="bg-search-white">
                 <div class="form-group">
-                  <GmapAutocomplete @place_changed="setPlace">
-                  </GmapAutocomplete>
-                  <button v-on:click="usePlace" type="submit" class="btn btn-primary">Search </button>
+                  <div class="column">
+                    <GmapAutocomplete @place_changed="setPlace">
+                    </GmapAutocomplete>
+                  </div>
+                  <div class="column">
+                    <button v-on:click="usePlace" type="submit" class="btn btn-primary">Search </button>
+                  </div>
                 </div>
             </div>
           </div>
       </div>
     </div>
-  </section>
-
-  <!-- BREWERY RESULTS SECTION -->
-  <section class="clearfix thingsArea">
   </section>
     </div>
   </div>
