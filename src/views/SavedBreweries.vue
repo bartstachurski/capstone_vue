@@ -23,11 +23,11 @@
                 <td>
                   <ul class="list-inline listingsInfo">
                     <!-- need to fix the sizing on this -->
-                    <li><a><router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><img style="max-width: 125px; height: auto; " v-bind:src="`${brewery.brewery_label}`" alt="Image Listings" v-bind:to="`/breweries/${brewery.untappd_venue_id}`"></router-link></a></li>
+                    <li><router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><img style="max-width: 125px; height: auto; " v-bind:src="`${brewery.brewery_label}`" alt="Image Listings" v-bind:to="`/breweries/${brewery.untappd_venue_id}`"></router-link></a></li>
                     <li>
                       <router-link v-bind:to="`/breweries/${brewery.untappd_venue_id}`"><h3>{{ brewery.venue_name }}</h3></router-link>
                       <h5>By {{ brewery.brewery_name }}</h5>
-                      <button class="btn btn-primary"v-on:click="deleteSavedBrewery(brewery.saved_brewery_id)">Delete</button> 
+                      <button class="btn btn-primary" v-on:click="deleteSavedBrewery(brewery.saved_brewery_id)">Delete</button> 
                       <!-- Example single danger button -->
                       <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Add to Group</button>
@@ -51,27 +51,6 @@
             </tbody>
           </table>
         </div>
-        <div class="paginationCommon blogPagination text-center">
-          <nav aria-label="Page navigation">
-            <ul class="pagination">
-              <li>
-                <a href="#" aria-label="Previous">
-                  <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
-                </a>
-              </li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                  <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
       </div>
     </div>
   </div>
@@ -81,7 +60,9 @@
 </template>
 
 <style>
-
+.btn-primary {
+  margin-right: 10px;
+}
 </style>
 
 <script>
