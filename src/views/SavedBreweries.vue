@@ -44,9 +44,26 @@
                 <td>
                   <star-rating v-on:rating-selected="starsSet($event, brewery.saved_brewery_id, brewery.visited)" v-bind:rating="brewery.rating" :round-start-rating="false"></star-rating>
                 </td>
-                <td>{{brewery.comment}}</td>
+                <td v-if="brewery.visited">{{brewery.comment}}<br>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Edit Comment
+                    </button>
+                      <div class="dropdown-menu">
+                        <form @submit="saveComment(brewery.saved_brewery_id)" class="col-xs-12">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">With textarea</span>
+                            </div>
+                            <textarea v-model="editComment" class="form-control" aria-label="With textarea" v-bind:placeholder="brewery.comment"></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                      </div>
+                  </div>
+                </td>
+                <td v-else>Not Yet Visited</td>
                 <td>{{brewery.created_at_date}} <br>{{brewery.created_at_time}}</td>
-                <!-- <td><span class="label label-warning">Pending</span></td> -->
               </tr>
             </tbody>
           </table>
@@ -77,7 +94,8 @@ export default {
       saved_breweries: [],
       groups: [],
       searchTerm: "",
-      friends: []
+      friends: [],
+      editComment: ""
     };
   },
   components: {
@@ -108,6 +126,17 @@ export default {
         console.log(response.data);
       });
     },
+    saveComment: function(savedBreweryId) {
+      console.log("this is the savedBreweryId from the saveComment method");
+      console.log(savedBreweryId);
+      console.log(this.editComment);
+      var params = {
+        comment: this.editComment
+      };
+      axios.patch(`/api/saved_breweries/${savedBreweryId};`, params).then(response => {
+        console.log(response.data);
+      });
+    },
     addToGroup: function(savedBreweryId, groupId) {
       console.log(groupId);
       console.log(savedBreweryId);
@@ -126,11 +155,12 @@ export default {
       console.log(breweryVisited);
       var params = {
         visited: !breweryVisited,
-        saved_ratingrating: breweryRating
+        saved_rating: breweryRating
       };
       axios.patch(`/api/saved_breweries/${savedBreweryId};`, params).then(response => {
         console.log(response.data);
       });
+      window.location.reload();
     },
     starsSet: function(rating, savedBreweryId, breweryVisited) {
       console.log("hello from the setRating method this is the rating:");
