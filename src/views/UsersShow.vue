@@ -70,7 +70,7 @@
                 </div>
               </div>
               <div class="listContentHeading">
-                <h2>Groups</h2>
+                <h2>Trips</h2>
               </div>
               <div v-for="group in user.groups" class="listContent">
                 <div class="row">

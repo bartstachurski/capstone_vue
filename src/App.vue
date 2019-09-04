@@ -30,7 +30,7 @@
                     <li class=""><a href="/">home </a></li>
                     <li class=""><a href="/saved_breweries">saved breweries </a></li>
                     <li class=""><a href="/friends">friends </a></li>
-                    <li class=""><a href="/groups">groups </a></li>
+                    <li class=""><a href="/groups">trips </a></li>
                     <li class=""><a href="/signup">Create Account</a></li>
                     <li><a href="/login">Login</a></li>
                     <li><a href="/logout">Logout</a></li>
@@ -54,8 +54,8 @@
                   </a>
                   <p>Find breweries and visit them with your friends.</p>
                   <ul class="list-styled list-contact">
-                    <li><i class="fa fa-phone" aria-hidden="true"></i>[88] 657 524 332</li>
-                    <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="#">info@listy.com</a></li>
+                    <li><i class="fa fa-info" aria-hidden="true"></i>Built using the Foursquare, Untappd, and Google Maps APIs</li>
+                    <li><i class="fa fa-envelope" aria-hidden="true"></i><a>info@brewtrip.com</a></li>
                   </ul>
                 </div>
               </div>

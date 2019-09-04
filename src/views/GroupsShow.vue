@@ -17,8 +17,9 @@
           <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Add Friends to Trip</button>
             <div class="dropdown-menu">
-              <a class="dropdown-item" v-for="friend in friends" v-on:click="addFriendToGroup(friend.id)">{{friend.first_name}} {{friend.last_name}}</a><br>
+              <li><a class="dropdown-item" v-for="friend in friends" v-on:click="addFriendToGroup(friend.id)">{{friend.first_name}} {{friend.last_name}}</a></li>
             </div>
+            <button type="button" class="btn btn-primary" v-on:click="deleteGroup()">Delete Trip</button>
           </div>
         </div>
         <div class="table-responsive"  data-pattern="priority-columns">
@@ -43,16 +44,15 @@
                       <h5>By {{ brewery.brewery_name }}</h5>
                       <!-- Example single danger button -->
                       <div class="btn-group">
-                        <button v-on:click="removeFromGroup(brewery.id)" type="button" class="btn-danger" aria-haspopup="true" aria-expanded="false" >Remove from Group</button>
+                        <button v-on:click="removeFromGroup(brewery.id)" type="button" class="btn-danger" aria-haspopup="true" aria-expanded="false" >Remove from Trip</button>
                       </div>
                     </li>
                   </ul>
                 </td>
-                <td v-if="brewery.visited"><span class="label label-success" v-on:click="toggleVisited(brewery.saved_brewery_id, brewery.visited)">Yes!</span></td>
-                <td v-else v-on:click="toggleVisited(brewery.saved_brewery_id, brewery.visited, brewery.saved_brewery_id)"><span class="label label-warning">No</span></td>
-                <!-- <td><i class="fa fa-check primaryColor" aria-hidden="true" v-if="brewery.visited"></i></td> -->
+                <td v-if="brewery.visited"><span class="label label-success">Yes!</span></td>
+                <td v-else><span class="label label-warning">No</span></td>
                 <td>
-                  <star-rating v-on:rating-selected="starsSet($event, brewery.saved_brewery_id, brewery.visited)" v-bind:rating="brewery.rating" :round-start-rating="false"></star-rating>
+                  <star-rating v-bind:rating="brewery.rating" :round-start-rating="false"></star-rating>
                 </td>
                 <td>{{brewery.comment}}</td>
                 <td>{{brewery.created_at_date}} <br>{{brewery.created_at_time}}</td>
@@ -61,28 +61,8 @@
             </tbody>
           </table>
         </div>
-        <div class="paginationCommon blogPagination text-center">
-          <nav aria-label="Page navigation">
-            <ul class="pagination">
-              <li>
-                <a href="#" aria-label="Previous">
-                  <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
-                </a>
-              </li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                  <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" :awss3="awss3" v-on:vdropzone-s3-upload-error="s3UploadError" v-on:vdropzone-s3-upload-success="s3UploadSuccess"></vue-dropzone>
+
+<!--         <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" :awss3="awss3" v-on:vdropzone-s3-upload-error="s3UploadError" v-on:vdropzone-s3-upload-success="s3UploadSuccess"></vue-dropzone> -->
       </div>
     </div>
   </div>
@@ -92,13 +72,19 @@
 </template>
 
 <style>
+img{
+    max-height:125px;
+    max-width:500px;
+    height:auto;
+    width:auto;
+}
 </style>
 
 <script>
 import axios from "axios";
 import VueNumeric from 'vue-numeric';
-import vue2Dropzone from 'vue2-dropzone';
-import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+// import vue2Dropzone from 'vue2-dropzone';
+// import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 
 export default {
   data: function() {
@@ -106,20 +92,20 @@ export default {
       message: "Welcome to groupsShow.js!",
       group: {},
       friends: [],
-      dropzoneOptions: {
-        url: 'http://localhost:3000/api/aws_s3_group_photos_uploads',
-        thumbnailWidth: 150,
-        maxFilesize: 10,
-        headers: { "My-Awesome-Header": "header value" },
-        method: "PUT"
-      },
-      awss3: {
-        signingURL: 'https://brewtrip-group-photos.s3.us-east-2.amazonaws.com/image?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAYDO2DFJAEP47FFNE%2F20190903%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20190903T153242Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=6d3d6fa0cd9adcf95c1b7f7cb5a95ae6041dd1870ac48f6955b234e5f7defde9',
-        headers: {},
-        params : {},
-        sendFileToServer : true,
-        withCredentials: false
-      },
+      // dropzoneOptions: {
+      //   url: 'http://localhost:3000/api/aws_s3_group_photos_uploads',
+      //   thumbnailWidth: 150,
+      //   maxFilesize: 10,
+      //   headers: { "My-Awesome-Header": "header value" },
+      //   method: "PUT"
+      // },
+      // awss3: {
+      //   signingURL: 'https://brewtrip-group-photos.s3.us-east-2.amazonaws.com/image?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAYDO2DFJAEP47FFNE%2F20190903%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20190903T153242Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=6d3d6fa0cd9adcf95c1b7f7cb5a95ae6041dd1870ac48f6955b234e5f7defde9',
+      //   headers: {},
+      //   params : {},
+      //   sendFileToServer : true,
+      //   withCredentials: false
+      // },
     };
   },
   created: function() {
@@ -134,9 +120,9 @@ export default {
       console.log(this.friends);
     });
   },
-  components: {
-    vueDropzone: vue2Dropzone
-  },
+  // components: {
+  //   vueDropzone: vue2Dropzone
+  // },
   methods: {
     removeFromGroup: function(savedBreweryId) {
       console.log(savedBreweryId);
@@ -147,6 +133,14 @@ export default {
       };
       axios.delete('/api/saved_brewery_groups', { data: params }).then(response => {
         console.log(response.data);
+      });
+    },
+    deleteGroup: function() {
+      console.log("this is this.group.group.id from the delete group method");
+      console.log(this.group.group.id);
+      axios.delete(`/api/groups/${this.group.group.id}`).then(response => {
+        console.log(response.data);
+        this.$router.push("/groups");
       });
     },
     addFriendToGroup: function(friendId) {
