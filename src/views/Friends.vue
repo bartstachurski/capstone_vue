@@ -30,7 +30,7 @@
               <div class="row adjustRow">
                 <div class="pull-right col-xs-12 col-sm-4">
                 <div class="input-group">
-                  <input v-model="searchTerm" class="form-control" type="search" placeholder="Search" aria-label="Search" list="users">
+                  <input v-model="searchTerm" class="form-control" type="search" placeholder="Search for new friends" aria-label="Search" list="users">
                   <span class="input-group-btn">
                     <button class="btn btn-default" v-on:click="searchClick()"><i class="icon-listy icon-search-2"></i></button>
                   </span>
@@ -79,7 +79,7 @@
                   </div>
                 </div>
                
-                <div class="single-list" v-for="friend in friends">
+                <div class="single-list" v-for="(friend, index) in friends" v-bind:key="index">
                   <div class="media booking-list-media">
                     <div class="media-left">
                       <router-link v-bind:to="`/users/${friend.id}`">
@@ -95,7 +95,7 @@
                       <a :href="`mailto:${friend.email}`" class="btn btn-primary">send email</a>
                     </div>
                     <div class="right-btn">
-                      <button v-on:click="deleteFriend(friend.id)" class="btn btn-primary cancel">delete friend</button>
+                      <button v-on:click="deleteFriend(friend.id, index)" class="btn btn-primary cancel">delete friend</button>
                     </div>
                   </div>
                 </div>
@@ -107,7 +107,7 @@
                   </div>
                 </div>
                
-                <div class="single-list" v-for="friendRequest in friendRequests.incoming">
+                <div class="single-list" v-for="(friendRequest, index) in friendRequests.incoming" v-bind:key="index">
                   <div class="media booking-list-media">
                     <div class="media-left">
                       <router-link v-bind:to="`/users/${friendRequest.user_id}`">
@@ -123,8 +123,8 @@
                       <a :href="`mailto:${friendRequest.user_details.email}`" class="btn btn-primary">send email</a>
                     </div>
                     <div class="right-btn">
-                      <a v-on:click="declineRequest(friendRequest.id)" class="btn btn-primary cancel">decline</a>
-                      <button v-on:click="acceptFriendRequest(friendRequest.id)" class="btn btn-primary approved">accept</button>
+                      <a v-on:click="declineRequest(friendRequest.id, index)" class="btn btn-primary cancel">decline</a>
+                      <button v-on:click="acceptFriendRequest(friendRequest.id, index)" class="btn btn-primary approved">accept</button>
                     </div>
                   </div>
                 </div>
@@ -236,12 +236,15 @@ export default {
       console.log("this is the friend_requests");
       console.log(this.friendRequests);
     },
-    declineRequest: function(friendRequestId) {
+    declineRequest: function(friendRequestId, index) {
       console.log("this is friend_request_id from the declineRequest method");
       console.log(friendRequestId);
+      console.log(index);
+      console.log("this is the index of friend request being declined");
       axios.delete(`/api/friend_requests/${friendRequestId}`).then(response => {
         console.log("data received from the friend request destroy action");
         console.log(response.data);
+        this.friendRequests.incoming.splice(index, 1);
       });
     },
     createFriendRequest: function(friendId) {
@@ -255,7 +258,7 @@ export default {
         console.log(response.data);
       });
     },
-    acceptFriendRequest: function(friendId) {
+    acceptFriendRequest: function(friendId, index) {
       console.log(friendId);
       var params = {
         accepted: true
@@ -263,17 +266,19 @@ export default {
       axios.patch(`/api/friend_requests/${friendId}`, params).then(response => {
         console.log("dat received from the friend request update aka accept action");
         console.log(response.data);
+        this.friendRequests.incoming.splice(index, 1);
       });
     },
     searchClick: function(value) {
       console.log(value);
     },
-    deleteFriend: function(friendId) {
+    deleteFriend: function(friendId, index) {
       console.log("this is the friendId from the deslete friend method");
       console.log(friendId);
       axios.delete(`/api/friendships/${friendId}`).then(response => {
         console.log("data received from the friend request destroy action");
         console.log(response.data);
+        this.friends.splice(index, 1);
       });
     }
   }
