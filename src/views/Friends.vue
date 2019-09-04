@@ -20,10 +20,11 @@
             <div class="collapse navbar-collapse navbar-dash">
               <ul class="nav navbar-nav mr0">
                 <li class="" v-on:click="setGroup('friends')">
-                  <a><i class="fa fa-tachometer icon-dash" aria-hidden="true" ></i> Friends </a>
+                  <a><i class="fa fa-users icon-dash" aria-hidden="true" ></i> Friends </a>
                 </li>
                 <li class="" v-on:click="setGroup('friend_requests')">
-                  <a><i class="fa fa-cogs icon-dash" aria-hidden="true" ></i>Pending Friend Requests</a>
+                  <a v-if="friendRequests.incoming.length > 0"><i class="fa fa-hand-peace-o icon-dash" aria-hidden="true" ></i> Pending Friend Requests ({{friendRequests.incoming.length}})</a>
+                  <a v-else><i class="fa fa-hand-peace-o icon-dash" aria-hidden="true" ></i> Pending Friend Requests (None)</a>
                 </li>
               </ul>
               

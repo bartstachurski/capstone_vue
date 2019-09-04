@@ -29,11 +29,12 @@
                       <h5>By {{ brewery.brewery_name }}</h5>
                       <button class="btn btn-primary" v-on:click="deleteSavedBrewery(brewery.saved_brewery_id)">Delete</button> 
                       <!-- Example single danger button -->
+
                       <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Add to Group</button>
-                        <div class="dropdown-menu">
-                          <a class="dropdown-item" href="#" v-for="group in groups" v-on:click="addToGroup(brewery.saved_brewery_id, group.id)">{{group.name}}</a><br>
-                        </div>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add to Trip</button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" v-for="group in groups" v-on:click="addToGroup(brewery.saved_brewery_id, group.id)">{{group.name}}</a></li>
+                        </ul>
                       </div>
                     </li>
                   </ul>
