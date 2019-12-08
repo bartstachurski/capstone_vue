@@ -72,7 +72,7 @@
 </template>
 
 <style>
-img{
+.img {
     max-height:125px;
     max-width:500px;
     height:auto;
@@ -83,8 +83,10 @@ img{
 <script>
 import axios from "axios";
 import VueNumeric from 'vue-numeric';
+
 // import vue2Dropzone from 'vue2-dropzone';
 // import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+
 
 export default {
   data: function() {
@@ -154,6 +156,7 @@ export default {
       axios.post(`/api/shared_groups`, params).then(response => {
         console.log("this is the response.data from addFriendToGroup method");
         console.log(response.data);
+        window.location.reload();
       });
     }
   }

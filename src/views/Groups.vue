@@ -15,7 +15,6 @@
               <!-- LOGIN  MODAL -->
               <div id="loginModal" tabindex="-1" class="modal fade" role="dialog">
                 <div class="modal-dialog">
-
                   <!-- Modal content-->
                   <div class="modal-content">
                     <div class="modal-header">
@@ -39,7 +38,6 @@
                       </form>
                     </div>
                   </div>
-
                 </div>
               </div>
               <div class="resultBar barSpaceAdjust">
@@ -49,7 +47,6 @@
                   <div class="col-sm-5 col-xs-12">
                     <div class="categoryImage">
                       <router-link v-bind:to="`/groups/${group.id}`"><img v-bind:src="group.photo_url" alt="Image category" class="img-responsive img-rounded"></router-link>
-                      <span class="label label-primary">Verified</span>
                     </div>
                   </div>
                   <div class="col-sm-7 col-xs-12">
@@ -65,7 +62,7 @@
                   </div>
                 </div>
               </div>
-              <div v-for="group in sharedGroups" class="listContent">
+              <div v-if="sharedGroups" v-for="group in sharedGroups" class="listContent">
                 <div class="row">
                   <div class="col-sm-5 col-xs-12">
                     <div class="categoryImage">
@@ -107,6 +104,7 @@ export default {
       message: "Welcome to Groups.js!",
       groups: [],
       sharedGroups: [],
+      sharedGroupsLoaded: false,
       newGroup: "",
       newGroupPhotoUrl: ""
     };
@@ -119,6 +117,7 @@ export default {
     });
     axios.get("/api/shared_groups").then(response => {
       this.sharedGroups = response.data;
+      this.sharedGroupsLoaded = true;
       console.log("this is the shared_groups data");
       console.log(this.sharedGroups);
     });
