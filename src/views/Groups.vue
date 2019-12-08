@@ -49,7 +49,6 @@
                   <div class="col-sm-5 col-xs-12">
                     <div class="categoryImage">
                       <router-link v-bind:to="`/groups/${group.id}`"><img v-bind:src="group.photo_url" alt="Image category" class="img-responsive img-rounded"></router-link>
-                      <span class="label label-primary">Verified</span>
                     </div>
                   </div>
                   <div class="col-sm-7 col-xs-12">
@@ -65,12 +64,11 @@
                   </div>
                 </div>
               </div>
-              <div v-for="group in sharedGroups" class="listContent">
+              <div v-if="sharedGroups.length > 0" v-for="group in sharedGroups" class="listContent">
                 <div class="row">
                   <div class="col-sm-5 col-xs-12">
                     <div class="categoryImage">
                       <router-link v-bind:to="`/groups/${group.id}`"><img v-bind:src="group.photo_url" alt="Image category" class="img-responsive img-rounded"></router-link>
-                      <span class="label label-primary">Verified</span>
                     </div>
                   </div>
                   <div class="col-sm-7 col-xs-12">

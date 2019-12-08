@@ -8,11 +8,11 @@
             <div class="listingTitleArea">
               <h2>{{ this.venue.venue_name }}</h2>
               <h3>By {{ this.brewery.brewery_name }}</h3>
-              <p>{{ this.venue.venue_address }}  <br>{{ this.venue.venue_city }}, {{ this.venue.venue_state}} {{this.foursquare_venue.location.postalCode}}, {{ this.venue.venue_country }}</p>
+              <p v-if="foursquare_venue_loaded">{{ this.venue.venue_address }}  <br>{{ this.venue.venue_city }}, {{ this.venue.venue_state}} {{this.foursquare_venue.location.postalCode}}, {{ this.venue.venue_country }}</p>
               <div class="listingReview">
                 <span>
                   Foursquare Venue Rating: {{ this.foursquare_venue.rating }} / 10 ( {{ this.foursquare_venue.rating_signals }} Reviews)</span>
-                  <span> {{ this.brewery.rating_score }} / 5 ({{ this.brewery.rating_count }} Reviews)
+                  <span> Untappd Brewery Rating: {{ this.brewery.rating_score }} / 5 ({{ this.brewery.rating_count }} Reviews)
                   </span>
                  
 <!--                   <vue-numeric read-only separator="," v-model="brewery.rating_count"></vue-numeric>  -->
@@ -26,8 +26,8 @@
 
     <!-- LISTINGS DETAILS IMAGE SECTION -->
     <section class="clearfix paddingAdjustTopBottom">
-      <ul class="list-inline listingImage">
-        <li v-for="image in foursquare_venue.photos.groups[1].items"><img v-bind:src="`${image.prefix}200x150${image.suffix}`" alt="Image Listing" class="img-responsive"></li>
+      <ul v-if="foursquare_venue_loaded" class="list-inline listingImage">
+        <li v-for="image in foursquare_venue.photos.groups[0].items"><img v-bind:src="`${image.prefix}200x150${image.suffix}`" alt="Image Listing" class="img-responsive"></li>
         <!-- figure out a way to make the images all the same size if you feel like it... -->
         <!-- <li v-for="image in brewery.brewery.media.items"><img v-bind:src="`${image.photo.photo_img_lg}`" width="200" height="150" alt="Image Listing" class="img-responsive"></li> -->
       </ul>
@@ -45,7 +45,7 @@
               </div>
               <div class="detailsInfoBox">
                 <h3>Features</h3>
-                <ul class="list-inline featuresItems">
+                <ul v-if="foursquare_venue_loaded" class="list-inline featuresItems">
                   <li v-for="attribute in foursquare_venue.attributes.groups"><i class="fa fa-check-circle-o" aria-hidden="true"></i> {{ attribute.name }}: 
                     <div style="display:inline" v-for="item in attribute.items"> {{ item.displayValue }} 
                     </div>
@@ -53,7 +53,7 @@
                 </ul>
               </div>
               <div class="detailsInfoBox">
-                <h3>Tips ({{ this.foursquare_venue.tips.length }})</h3>
+                <h3 v-if="foursquare_venue_loaded">Tips ({{ this.foursquare_venue.tips.length }})</h3>
                 <!-- need to edit this to show the tips data from foursquare if you want -->
                 <div class="media media-comment" v-for="tip in this.foursquare_venue.tips">
                   <div class="media-left">
@@ -80,7 +80,7 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12">
+          <div v-if="foursquare_venue_loaded" class="col-sm-4 col-xs-12">
             <div class="clearfix map-sidebar map-right">
               <div id="map" style="position:relative; margin: 0;padding: 0;height: 538px; max-width: none;"></div>
             </div>
@@ -125,19 +125,9 @@
         <div class="dashboard-list-box">
           <div class="list-sort">
             <div class="sort-left">Recent Checkins</div>
-            <div class="sort-right sort-select">
-              <select name="guiest_id2" id="guiest_id2" class="select-drop">
-                <option value="0">All Listings</option>
-                <option value="1">Tom's Restaurant</option>
-                <option value="2">Sticky Band</option>
-                <option value="3">Hotel Govendor</option>
-                <option value="4">Burger House</option>
-                <option value="5">Airport</option>
-                <option value="6">Think Coffee</option>
-              </select>
-            </div>
+
           </div>
-          <div class="single-list" v-for="checkin in brewery.checkins">
+          <div v-if="foursquare_venue_loaded" class="single-list" v-for="checkin in brewery.checkins">
             <div class="media comments-media">
               <div class="media-left">
                 <a href="#">
@@ -227,7 +217,8 @@ export default {
       message: "Helloooooo from the show file!",
       venue: {},
       brewery: {},
-      foursquare_venue: {}
+      foursquare_venue: {},
+      foursquare_venue_loaded: false
     };
   },
   components: {
@@ -236,18 +227,19 @@ export default {
   },
   watch: {
     venue: function(val) {
-      console.log("This is the foursquare id");
       console.log("hello from untappd breweries get");
       axios.get(`/api/untappd_breweries/${this.venue.brewery_id}`).then(response => {
         this.brewery = response.data;
         console.log("this is this.brewery");
         console.log(this.brewery);
       });
+      console.log("This is the foursquare id");
       console.log(this.venue.foursquare_id);
       axios.get(`/api/foursquare_venues/${this.venue.foursquare_id}`).then(response => {
         console.log("This is the foursquare venue data");
         console.log(response.data);
         this.foursquare_venue = response.data;
+        this.foursquare_venue_loaded = true;
       });
     },
   },

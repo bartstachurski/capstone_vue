@@ -89,7 +89,7 @@
                     </div>
                     <div class="media-body">
                       <router-link v-bind:to="`/users/${friend.id}`">  
-                        <h4 class="media-heading">{{ friend.first_name }} {{ friend.last_name }}<span class="label label-warning">pending</span></h4>
+                        <h4 class="media-heading">{{ friend.first_name }} {{ friend.last_name }}</h4>
                       </router-link>
                       <div class="booking-list ">Friend Since: <span class="highlight bg-warning">{{ friend.created_at_date }} {{ friend.created_at_time }}</span></div>
                       <div class="booking-list">Email: <span>{{friend.email}}</span></div>

@@ -125,6 +125,7 @@ export default {
       console.log(savedBreweryId);
       axios.delete(`/api/saved_breweries/${savedBreweryId}`).then(response => {
         console.log(response.data);
+        window.location.reload();
       });
     },
     saveComment: function(savedBreweryId) {
@@ -147,16 +148,16 @@ export default {
       };
       axios.post("/api/saved_brewery_groups", params).then(response => {
         console.log(response.data);
+        window.location.reload();
       });
     },
-    toggleVisited: function(savedBreweryId, breweryVisited, breweryRating) {
+    toggleVisited: function(savedBreweryId, breweryVisited) {
       console.log("this is the saved brewery id");
       console.log(savedBreweryId);
       console.log("brewery visited?");
       console.log(breweryVisited);
       var params = {
         visited: !breweryVisited,
-        saved_rating: breweryRating
       };
       axios.patch(`/api/saved_breweries/${savedBreweryId};`, params).then(response => {
         console.log(response.data);
@@ -174,6 +175,7 @@ export default {
       };
       axios.patch(`/api/saved_breweries/${savedBreweryId};`, params).then(response => {
         console.log(response.data);
+        window.location.reload();
       });
     }
   },

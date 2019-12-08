@@ -135,6 +135,7 @@ export default {
       axios.post(`/api/shared_groups`, params).then(response => {
         console.log("this is the response.data from addFriendToGroup method");
         console.log(response.data);
+        window.location.reload();
       });
     }
   }
