@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <div class="dashboardPageTitle">
+        <div v-if="groupLoaded" class="dashboardPageTitle">
           <h2>{{group.group.name}}</h2>
           <p>Users in Trip:
             <ul class="list-inline featuresItems">
@@ -93,6 +93,7 @@ export default {
     return {
       message: "Welcome to groupsShow.js!",
       group: {},
+      groupLoaded: false,
       friends: [],
       // dropzoneOptions: {
       //   url: 'http://localhost:3000/api/aws_s3_group_photos_uploads',
@@ -114,6 +115,7 @@ export default {
     axios.get(`/api/groups/${this.$route.params.id}`).then(response => {
       console.log("This is the group data from rails backend");
       this.group = response.data;
+      this.groupLoaded = true;
       console.log(this.group);
     });
     axios.get("/api/friendships").then(response => {
