@@ -121,9 +121,7 @@ export default {
       }
     }
   },
-  created: function() {
-    console.log(process.env.VUE_APP_GOOGLE_PLACES_API_KEY);
-  },
+  created: function() {},
   methods: {
     toggleInfoWindow: function(marker) {
       axios.get(`/api/foursquare_venues/${marker.infoText.untappd_venue_id}`).then(response => {
