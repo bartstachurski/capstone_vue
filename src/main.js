@@ -32,12 +32,11 @@ Vue.use(VueGoogleMaps, {
   installComponents: true,
 });
 
-// axios.defaults.baseURL = 
-//   process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
-
-// when using heroku
 axios.defaults.baseURL = 
-  process.env.NODE_ENV === "development" ? "https://stark-ridge-36072.herokuapp.com/" : "/";
+  process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
+
+axios.defaults.baseURL = 
+  process.env.NODE_ENV === "production" ? "https://stark-ridge-36072.herokuapp.com" : "/";
 
 var jwt = localStorage.getItem("jwt");
 if (jwt) {
