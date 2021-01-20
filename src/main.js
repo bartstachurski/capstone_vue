@@ -14,17 +14,17 @@ Vue.use(VueGoogleMaps, {
     // OR: libraries: 'places,drawing'
     // OR: libraries: 'places,drawing,visualization'
     // (as you require)
- 
+
     //// If you want to set the version, you can do so:
     // v: '3.26',
   },
- 
+
   //// If you intend to programmatically custom event listener code
   //// (e.g. `this.$refs.gmap.$on('zoom_changed', someFunc)`)
   //// instead of going through Vue templates (e.g. `<GmapMap @zoom_changed="someFunc">`)
   //// you might need to turn this on.
   // autobindAllEvents: false,
- 
+
   //// If you want to manually install components, e.g.
   //// import {GmapMarker} from 'vue2-google-maps/src/components/marker'
   //// Vue.component('GmapMarker', GmapMarker)
@@ -32,11 +32,13 @@ Vue.use(VueGoogleMaps, {
   installComponents: true,
 });
 
-axios.defaults.baseURL = 
-  process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
+axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL
 
-axios.defaults.baseURL = 
-  process.env.NODE_ENV === "production" ? "https://stark-ridge-36072.herokuapp.com" : "/";
+// axios.defaults.baseURL =
+//   process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
+
+// axios.defaults.baseURL =
+//   process.env.NODE_ENV === "production" ? "https://stark-ridge-36072.herokuapp.com" : "/";
 
 var jwt = localStorage.getItem("jwt");
 if (jwt) {
